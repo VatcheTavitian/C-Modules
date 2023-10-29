@@ -13,7 +13,8 @@ int main() {
 		while (command.length() == 0) {
 			std::cout << GREEN << "Welcome to PhoneBook - Enter Command" << COLOR_RESET << std::endl;
 			std::cout << "->";
-			std::getline(std::cin, command);
+			if (!std::getline(std::cin, command))
+				command = "EXIT";
 		}
 		if (command == "EXIT")
 			break ;

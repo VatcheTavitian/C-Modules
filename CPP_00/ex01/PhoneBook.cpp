@@ -19,29 +19,29 @@ std::string	PhoneBook::truncate(std::string word)
 {
 	std::string	newword;
 
-	if (word.length() <= 10)
+	if (word.length() <= 9)
 		return word;
-	newword = word.substr(0, 9);
+	newword = word.substr(0, 8);
 	newword += ".";
 	return (newword);
 }
 
 int	PhoneBook::print_columns(int choices) {
 	choices = 0;
-	std::cout << GREEN << std::right << std::setw(10) << "   Index |";
-	std::cout << std::right << std::setw(10) << " First   |";
-	std::cout << std::right << std::setw(10) << " Last    |";
-	std::cout << std::right << std::setw(10) << " Nickname" << COLOR_RESET << std::endl;
+	std::cout << GREEN << std::right << std::setw(10) << "    Index" << "|";
+	std::cout << std::right << std::setw(10) << " First   " << "|";
+	std::cout << std::right << std::setw(10) << " Last    " << "|";
+	std::cout << std::right << std::setw(10) << " Nickname" << "|" << COLOR_RESET << std::endl;
 	if (this->contacts[0].get_first().length() == 0) {
 		std::cout << "\t\t---empty---\n" << std::endl;
 		return 0;
 	}
 	for (int i = 0; i < 8; i++) {
 		if (this->contacts[i].get_first().length()) {
-			std::cout << std::right << std::setw(10) << i;
-			std::cout << std::right << std::setw(10) << this->truncate(this->contacts[i].get_first());
-			std::cout << std::right << std::setw(10) << this->truncate(this->contacts[i].get_last());
-			std::cout << std::right << std::setw(10) << this->truncate(this->contacts[i].get_nick()) << std::endl;
+			std::cout << std::right << std::setw(10) << i  << "|";
+			std::cout << std::right << std::setw(10) << this->truncate(this->contacts[i].get_first())  << "|";
+			std::cout << std::right << std::setw(10) << this->truncate(this->contacts[i].get_last()) << "|";
+			std::cout << std::right << std::setw(10) << this->truncate(this->contacts[i].get_nick()) << "|" << std::endl;
 			choices++;
 		}
 	}
@@ -59,13 +59,14 @@ void	PhoneBook::selected_contact(int i) const {
 }
 void PhoneBook::display_contact() {
 	std::string choice;
-	int choices = this->print_columns(choices);
-
+	int choices = 0;
+	choices = this->print_columns(choices);
 	while (!choice.length()) {
 		int result;
 		std::cout << "Enter index choice or type EXIT to return to main menu " << std::endl;
 		std::cout << "->";
-		std::getline(std::cin, choice);
+		if (!std::getline(std::cin, choice))
+				choice = "EXIT";
 		if (choice == "EXIT")
 			return ;
 		try {
