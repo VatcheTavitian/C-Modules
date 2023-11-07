@@ -3,9 +3,10 @@
 DiamondTrap::DiamondTrap() :  ScavTrap (), FragTrap()  {
 	std::cout << "DiamondTrap default constructor called" << std::endl;
 	this->_name = "--no name initialized--";
-	this->_hitPoints = 0;
-	this->_energyPoints = 0;
-	this->_attackDamage = 0;
+	this->_hitPoints = FragTrap::_hitPoints;
+	this->_energyPoints = ScavTrap::_energyPoints;
+	this->_attackDamage = FragTrap::_attackDamage;
+
 }
  
 

@@ -30,7 +30,7 @@ public:
 	void	setHitPoints(int hp) ;
 	void	setEnergyPoints(int ep) ;
 	void	setAttackDamage(int ad) ;
-	virtual void	printInfo(const ClapTrap& src);
+	virtual void	printInfo();
 };
 
 

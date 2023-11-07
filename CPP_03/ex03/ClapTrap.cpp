@@ -98,8 +98,8 @@ void	ClapTrap::setAttackDamage(int ad) {
 	this->_attackDamage = ad; 
 }
 
-void	ClapTrap::printInfo(const ClapTrap& src) {
-	(void)  src;
+void	ClapTrap::printInfo() {
+
 	std::cout << std::endl;
 	std::cout << "	Name  = " << _name << std::endl;
 	std::cout << "    Hit Points = " << _hitPoints << std::endl;
