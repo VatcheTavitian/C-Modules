@@ -84,7 +84,7 @@ void Character::unequip(int idx) {
 }
 
 void Character::use(int idx, ICharacter& target) {
-      std::cout << this->getName() << "has used " << _inventory[idx] << "on" << target.getName() << std::endl;
+      std::cout << this->getName() << " has used " << _inventory[idx]->getType() << " on " << target.getName() << std::endl;
 }
 
 AMateria** Character::checkUnequiped() {
@@ -105,11 +105,12 @@ Character::~Character() {
                 if (unequiped[x] == _inventory[i])
                     unequiped[x] = NULL;
             }
-            delete _inventory[i];
         }
     }
     for (int i = 0; i < unequipedItems; i++) {
-        if (unequiped[i] != NULL)
+        if (unequiped[i] != NULL) {
             delete unequiped[i];
+             _inventory[i] = NULL;
+        }
     }
 }
