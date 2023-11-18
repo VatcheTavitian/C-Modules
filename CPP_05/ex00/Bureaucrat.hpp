@@ -6,7 +6,7 @@
 class Bureaucrat {
 	private:
 		Bureaucrat();	
-		std::string&	_name;
+		std::string		_name;
 		int				_grade;
 	public:
 

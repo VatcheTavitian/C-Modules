@@ -1,9 +1,8 @@
 #include "Bureaucrat.hpp"
 
-// Bureaucrat::Bureaucrat() {
-// 	this->_name = (std::string)"noname";
-// 	this->_grade = 1;
-// }
+Bureaucrat::Bureaucrat() : _name("no name"), _grade(1){
+	
+}
 
 void	Bureaucrat::setGrade(int grade) {
 	this->_grade = grade;

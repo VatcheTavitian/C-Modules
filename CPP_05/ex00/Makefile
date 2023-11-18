@@ -1,6 +1,6 @@
 NAME = ex00
 C++ = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 #-fsanitize=address
 
 SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
