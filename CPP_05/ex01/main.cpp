@@ -20,9 +20,9 @@ int	main() {
 	// 		delete form;
 	// 		delete copy;
 	// 	}
-	// 	catch (Bureaucrat::GradeTooLowException& e) {
-	// 		std::cout << e.what() << std::endl;
-	// 	}
+		// catch (Bureaucrat::GradeTooLowException& e) {
+		// 	std::cout << e.what() << std::endl;
+		// }
 	// 	catch (Bureaucrat::GradeTooHighException& e) {
 	// 		std::cout << e.what() << std::endl;
 	// 	}
