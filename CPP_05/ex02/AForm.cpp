@@ -82,8 +82,8 @@ const char*	AForm::FormNotSignedException::what() throw() {
 void				AForm::setTarget(std::string target) {
 	this->_target = target;
 }
-std::string			AForm::getTarget() {
-	return (this->_target);
+const std::string&			AForm::getTarget() {
+	return (_target);
 }
 
 

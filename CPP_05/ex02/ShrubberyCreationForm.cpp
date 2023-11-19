@@ -25,13 +25,31 @@ ShrubberyCreationForm::~ShrubberyCreationForm() {
 }
 
 void	ShrubberyCreationForm::execute(Bureaucrat const& executor) {
-	// std::cout << executor.getName() << executor.getGrade() << '\n' << std::endl;
-	// std::cout << this->getExecGrade() <<this->getSignGrade() << '\n' << std::endl;
 	if (!this->_signed)
 		throw AForm::FormNotSignedException();
 	if (executor.getGrade() > this->_execGrade)
 		throw AForm::GradeTooLowException();
-	 std::cout << executor.getName() << " executed " << this->getName() << std::endl;
+	std::ofstream outfile((this->getTarget() + "_shrubbery").c_str());
+	outfile << 
+	"KKKXXXXXXXKKKXXXXXXXXKXXXXXXXXXKKXXXXXXXXXXXXXXXKK\n"
+	"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXK\n"
+	"XXXXXXXXXXXXXXXXXXX0O00kxxxkOO00KXXXXXXXXXXXXXXXXX\n"
+	"XXXXXXXXXXXXXXKOkkdolclc,,,,;:coxOXNXXXXXXXXXXXXXX\n"
+	"XXXXXXXXXXNXK0kolc::c:;;;::;;::;;lOXNXXXXXXXXXXXXX\n"
+	"NNNNNNNXXXKOdllll:;c:::::;;,'''..'ckXNXXNNNNNNNNXX\n"
+	"XNNNNNX0xxoc::cc::::;,,,;;::;,','..'cONNNNNNNNNNNN\n"
+	"NNNNNNKkl:;::;cl:cc;;;;:ccllcc:,'....:dOXNNNNNNNNN\n"
+	"NNNX0Oxlll:cc::ccoooolcclooc:lc,''''...;o0XNNNNNNN\n"
+	"NNN0dll:cccc:;,;,;::clll:;;,';;,',;,',,,cloONNNNNN\n"
+	"NNNOolc,;locccccc;''';cl:,,,,;,',,,,,,;:::;;dXNNNN\n"
+	"0KK0xl:::clc;;cll:,;,';::,;;;,''',,,,;;'''',:xkkxx\n"
+	"',cc;:cccccc,;:::;;;'':lllc:,',;'.,,.........';::c\n"
+	".',;:clccllc:c:,,;;'',:;''',,',,'.....';;;;:codddx\n"
+	"llooodddddxxxxddddoolod;.,cxddxdddddxxkkkkkOkkkkkk\n"
+	"dddddxxxxxkkkxxxxxxxxxxc,,lkkkxxxdddxddodxxxxkOOkk\n"
+	"xxxxxkkxddxkkxxdooolllllodxkkOkxxdoodddoxkkkkk0K0k\n"
+	<< std::endl;
+	std::cout << executor.getName() << " executed " << this->getName() << std::endl;
 }
 
 
