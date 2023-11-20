@@ -53,6 +53,10 @@ const char*	Bureaucrat::GradeTooLowException::what() throw() {
 	return "Grade Too Low Exception";
 }
 
+const char*	Bureaucrat::FormNotSignedException::what() throw() {
+	return "Execution Error: Form Not Signed Exception";
+}
+
 void				Bureaucrat::increm() {
 	if (this->_grade <= 1)
 		throw Bureaucrat::GradeTooHighException();
@@ -75,6 +79,16 @@ void				Bureaucrat::signForm(AForm& form) {
 	}
 }
 
+void				Bureaucrat::executeForm(AForm const & form) {
+	try {
+		form.execute(*this);
+		std::cout << this->getName() << " executed " << form.getName() << std::endl;
+		} catch (Bureaucrat::FormNotSignedException &e) {
+			std::cout << e.what()<< std::endl;
+		} catch (Bureaucrat::GradeTooLowException &e) {
+			std::cout << e.what()<< std::endl;
+		}
+}
 
 std::ostream& operator<<(std::ostream& lhs, const Bureaucrat& rhs) {
 	lhs << rhs.getName() << ", bureaucrat grade " 

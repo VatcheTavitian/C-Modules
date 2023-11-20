@@ -24,12 +24,12 @@ ShrubberyCreationForm::~ShrubberyCreationForm() {
 	std::cout << "ShrubberyCreationForm destructor called" << std::endl;
 }
 
-void	ShrubberyCreationForm::execute(Bureaucrat const& executor) {
+void ShrubberyCreationForm::execute(Bureaucrat const& executor) const {
 	if (!this->_signed)
 		throw AForm::FormNotSignedException();
 	if (executor.getGrade() > this->_execGrade)
 		throw AForm::GradeTooLowException();
-	std::ofstream outfile((this->getTarget() + "_shrubbery").c_str());
+	std::ofstream outfile((this->_target + "_shrubbery").c_str());
 	outfile << 
 	"KKKXXXXXXXKKKXXXXXXXXKXXXXXXXXXKKXXXXXXXXXXXXXXXKK\n"
 	"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXK\n"
@@ -49,32 +49,4 @@ void	ShrubberyCreationForm::execute(Bureaucrat const& executor) {
 	"dddddxxxxxkkkxxxxxxxxxxc,,lkkkxxxdddxddodxxxxkOOkk\n"
 	"xxxxxkkxddxkkxxdooolllllodxkkOkxxdoodddoxkkkkk0K0k\n"
 	<< std::endl;
-	std::cout << executor.getName() << " executed " << this->getName() << std::endl;
 }
-
-
-
-// const std::string& 	ShrubberyCreationForm::getName() const {
-// 	return (this->_name);
-// }
-// bool				ShrubberyCreationForm::getSigned() const {
-// 	return (this->_signed);
-// }
-
-// int			ShrubberyCreationForm::getSignGrade() const {
-// 	return (this->_signGrade);
-// }
-
-// int			ShrubberyCreationForm::getExecGrade() const {
-// 	return (this->_execGrade);
-// }
-
-// void		ShrubberyCreationForm::beSigned(Bureaucrat& b) {
-// 	if (this->getSignGrade() < b.getGrade())
-// 		throw Bureaucrat::GradeTooLowException();
-// 	else if (!this->_signed) {
-// 		this->_signed = true;
-// 	} else {
-// 		std::cout << "AForm has already been signed" << std::endl;
-// 	}
-// }
