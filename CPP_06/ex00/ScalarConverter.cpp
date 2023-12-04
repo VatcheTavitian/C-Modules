@@ -61,8 +61,6 @@ int		ScalarConverter::specialCase(const std::string& str) {
 
 int		ScalarConverter::checkIfFloat(const std::string& str) {
 	unsigned int i = 0;
-
-
 	while (str[i]) {
 		if (str[i] == '-' || str[i] == '+')
 			i++;
@@ -99,12 +97,45 @@ int		ScalarConverter::checkIfFloat(const std::string& str) {
 	return (0);
 }
 
+int		ScalarConverter::checkIfInt(const std::string& str) {
+	unsigned int i = 0;
+	if (str[i] == '-')
+		i++;
+	while (str[i]) {
+		if (str[i] && !isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int		ScalarConverter::checkIfDouble(const std::string& str) {
+	unsigned int i = 0;
+	unsigned int dp = 0;
+	if (str[i] == '-')
+		i++;
+	while (str[i]) {
+		if (str[i] == '.')
+			dp++;
+		if (str[i] && (!isdigit(str[i]) && str[i] != '.')) {
+			return (0);
+		}
+		i++;
+	}
+	if (!dp || dp > 1)
+		return (0);
+	return (1);
+}
+
 int		ScalarConverter::identify(const std::string& str) {
 	if (str.length() == 1 && !isdigit(str[0]))
 		return (CHAR);
-	else if (checkIfFloat(str)) {
+	else if (checkIfInt(str))
+		return (INT);
+	else if (checkIfFloat(str))
 		return (FLOAT);
-	}
+	else if (checkIfDouble(str))
+		return (DOUBLE);
 	return (-1);
 }
 
@@ -153,40 +184,83 @@ void	ScalarConverter::processFloat(const std::string& str) {
 	else
 		std::cout << "float: " << _float << "f" << std::endl;
 	std::cout << "double: " << _double << std::endl;
-
-	// _float = static_cast<float>(_char);
-	// std::cout << "int: " << _double << ".0" << std::endl;
 }
 
 
 void	ScalarConverter::processInt(const std::string& str) {
-	std::cout <<str;
-// 	int		num = std::atoi(str);
-// 	// int		sign = 1;
-// 	// if (str[0] == '-')
-// 	// 	sign = -1;
-// 	if (num < 32 || num > 127)
-// 		std::cout << "char: non-displayable" << std::endl;
-// 	_int = static_cast<int>(_char);
-// 	std::cout << "int: " << _int << std::endl;
-// 	_float = static_cast<float>(_char);
-// 	std::cout << "float: " << _float << ".0f" << std::endl;
-// 	_double = static_cast<double>(_char);
-// 	std::cout << "int: " << _double << ".0" << std::endl;
+	_int = std::atoi(str.c_str());
+	if (_int < 32 || _int >= 127)
+		std::cout << "char: non-displayable" << std::endl;
+	else {
+		_char = static_cast<char>(_int);
+		std::cout << "char: '" << _char << "'" << std::endl;
+	}
+	_float = static_cast<float>(_int);
+	_double = static_cast<double>(_int);
+	std::cout << "int: " << _int << std::endl;
+	std::cout << "float: " << _float << ".0f" << std::endl;
+	std::cout << "int: " << _double << ".0" << std::endl;
 }
 
+void	ScalarConverter::processDouble(const std::string& str) {
+	_double = std::stod(str.c_str());
+	_int = static_cast<int>(_double);
+	if (_int < 32 || _int >= 127)
+		std::cout << "char: non-displayable" << std::endl;
+	else {
+		_char = static_cast<char>(_int);
+		std::cout << "char: '" << _char << "'" << std::endl;
+	}
+	_float = static_cast<float>(_double);
+	std::cout << "int: " << _int << std::endl;
+	if (floatHasDecimalPart(str))
+		std::cout << "float: " << _float << ".0f" << std::endl;
+	else
+		std::cout << "float: " << _float << "f" << std::endl;
+	if (floatHasDecimalPart(str))
+		std::cout << "double: " << _double << ".0" << std::endl;
+	else
+		std::cout << "double: " << _double << std::endl;
+}
+
+int		ScalarConverter::outOfRange(const std::string& str) {
+	unsigned int i = 0;
+	if (str[i] == '-' || str[i] == '+' )
+			i++;
+	while (str[i])
+	{
+		if (!isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	long long int num = atoll(str.c_str());
+	std::cout << "num is " << num << std::endl;
+	if (num > INT_MAX || num < INT_MIN) {
+		std::cout << "INPUT OUT OF RANGE" << std::endl;
+		return (1);
+	}
+	return (0);
+}
 
 void ScalarConverter::convert(const std::string& str) {
-	if (specialCase(str)) {
-		// return printSpecials(str);
+	// if (outOfRange(str)) {
+		
+	// 	return ;
+	// }
+	if (specialCase(str))
 		return ;
-	}
 	switch (identify(str)) {
 		case(CHAR):
 			processChar(str);
 			break;
+		case(INT):
+			processInt(str);
+			break;
 		case(FLOAT):
 			processFloat(str);
+			break;
+		case(DOUBLE):
+			processDouble(str);
 			break;
 		// case(FLOAT):
 		// 	std::cout << "float: " << str << std::endl;
