@@ -34,61 +34,130 @@ const char* ScalarConverter::ConversionImpossible::what() const throw() {
 int		ScalarConverter::specialCase(const std::string& str) {
 	if (str == "nan" || str == "nanf")  {
 		char* endptr;
-		std::cout << "char: impossible" << std::endl;
-		std::cout << "int: impossible" << std::endl;
 		_double = std::strtod(str.c_str(), &endptr); 
 		_float = static_cast<float>(_double); 
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "int: impossible" << std::endl;
 		std::cout << "float: " << _float << "f" << std::endl;
 		std::cout << "double: " << _double << std::endl;
-		//&endptr arg checks the conversion was correctly done by 
-		//checking endptr points to the last character in input string. Otherwise *endptr points to character which caused failure
 		return 1;
 	}
 	else if (str == "inf" || str == "inff" || str == "-inf" || str == "-inff" \
 				|| str == "+inf" || str == "+inff")  {
 		char* endptr;
-		std::cout << "char: impossible" << std::endl;
-		std::cout << "int: impossible" << std::endl;
 		if (str[0] == '-')
 			_double = std::strtod("-Infinity", &endptr); 
 		else
 			_double = std::strtod("Infinity", &endptr); 
 		_float = static_cast<float>(_double); 
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "int: impossible" << std::endl;
 		std::cout << "float: " << _float << "f" << std::endl;
 		std::cout << "double: " << _double << std::endl;
 		return 1;
 	}
-	// else if (str == "-inf" || str == "-inff")  {
-	// 	char* endptr;
-	// 	std::cout << "char: impossible" << std::endl;
-	// 	std::cout << "int: impossible" << std::endl;
-	// 	_double = std::strtod("-Infinity", &endptr); 
-	// 	_float = static_cast<float>(_double); 
-	// 	std::cout << "float: " << _float << "f" << std::endl;
-	// 	std::cout << "double: " << _double << std::endl;
-	// 	return 1;
-	// }
+	return (0);
+}
+
+int		ScalarConverter::checkIfFloat(const std::string& str) {
+	unsigned int i = 0;
+
+
+	while (str[i]) {
+		if (str[i] == '-' || str[i] == '+')
+			i++;
+		
+		if (str[i] && isdigit(str[i])) {
+			
+			while (str[i] && isdigit(str[i]))
+				i++;
+			if (str[i] == 'f' && i == str.length() - 1)
+				return (1);
+			else if (str[i] == '.') {
+				i++;
+				if (str[i] == 'f' && i == str.length() - 1)
+					return (1);
+				while (str[i]) {
+					if (str[i] && isdigit(str[i])) {
+						while (str[i] && isdigit(str[i]))
+							i++;
+						if (str[i] == 'f' && i == str.length() - 1)
+							return (1);
+						else
+							return (0);
+					}
+					else
+						return (0);
+				}
+			}
+			else
+				return (0);
+		}
+		else
+			return (0);
+	}
 	return (0);
 }
 
 int		ScalarConverter::identify(const std::string& str) {
-
 	if (str.length() == 1 && !isdigit(str[0]))
 		return (CHAR);
-
+	else if (checkIfFloat(str)) {
+		return (FLOAT);
+	}
 	return (-1);
 }
 
 void	ScalarConverter::processChar(const std::string& str) {
 	_char = str[0];
-	std::cout << "char: '" << _char << "'" << std::endl;
 	_int = static_cast<int>(_char);
-	std::cout << "int: " << _int << std::endl;
 	_float = static_cast<float>(_char);
-	std::cout << "float: " << _float << ".0f" << std::endl;
 	_double = static_cast<double>(_char);
+	if (_int < 32 || _int >= 127)
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: '" << _char << "'" << std::endl;
+	std::cout << "int: " << _int << std::endl;
+	std::cout << "float: " << _float << ".0f" << std::endl;
 	std::cout << "int: " << _double << ".0" << std::endl;
 }
+
+int		ScalarConverter::floatHasDecimalPart(const std::string& str) {
+	unsigned int i = 0;
+	while (str[i]) {
+		if (str[i] == '.' || str[i] == 'f') {
+			i++;
+			break;
+		}
+		i++;
+	}
+	if (!str[i] || str[i] == 'f')
+		return (1);
+	return (0);
+}
+
+void	ScalarConverter::processFloat(const std::string& str) {
+	_float = atof(str.c_str());
+	
+	_int = static_cast<int>(_float);
+	_double = static_cast<double>(_float);
+	if (_int < 32 || _int >= 127)
+		std::cout << "char: Non displayable" << std::endl;
+	else {
+		_char =  static_cast<int>(_int);
+		std::cout << "char: '" << _char << "'" << std::endl;
+	}
+	std::cout << "int: " << _int << std::endl;
+	if (floatHasDecimalPart(str))
+		std::cout << "float: " << _float << ".0f" << std::endl;
+	else
+		std::cout << "float: " << _float << "f" << std::endl;
+	std::cout << "double: " << _double << std::endl;
+
+	// _float = static_cast<float>(_char);
+	// std::cout << "int: " << _double << ".0" << std::endl;
+}
+
 
 void	ScalarConverter::processInt(const std::string& str) {
 	std::cout <<str;
@@ -116,8 +185,8 @@ void ScalarConverter::convert(const std::string& str) {
 		case(CHAR):
 			processChar(str);
 			break;
-		case(INT):
-			// processInt(str);
+		case(FLOAT):
+			processFloat(str);
 			break;
 		// case(FLOAT):
 		// 	std::cout << "float: " << str << std::endl;

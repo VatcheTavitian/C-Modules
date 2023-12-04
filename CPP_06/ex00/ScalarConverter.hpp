@@ -27,9 +27,12 @@ class ScalarConverter {
 
 
 	static int		identify(const std::string& str);
+	static int		checkIfFloat(const std::string& str);
+	static int		floatHasDecimalPart(const std::string& str);
 	static int		specialCase(const std::string& str);
 	static void		processChar(const std::string& str);
 	static void		processInt(const std::string& str);
+	static void		processFloat(const std::string& str);
 
 
 	public:
