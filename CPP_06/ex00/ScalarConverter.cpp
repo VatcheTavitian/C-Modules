@@ -31,20 +31,47 @@ const char* ScalarConverter::ConversionImpossible::what() const throw() {
 	return "impossible";
 }
 
-int		ScalarConverter::parseData(const std::string& str) {
-	if (str.length() == 0)
-		return (1);
-	
-	for (unsigned int i = 0; i < str.length(); i++) {
-
+int		ScalarConverter::specialCase(const std::string& str) {
+	if (str == "nan" || str == "nanf")  {
+		char* endptr;
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "int: impossible" << std::endl;
+		_double = std::strtod(str.c_str(), &endptr); 
+		_float = static_cast<float>(_double); 
+		std::cout << "float: " << _float << "f" << std::endl;
+		std::cout << "double: " << _double << std::endl;
+		//&endptr arg checks the conversion was correctly done by 
+		//checking endptr points to the last character in input string. Otherwise *endptr points to character which caused failure
+		return 1;
 	}
-	
-	return 0;
+	else if (str == "inf" || str == "inff" || str == "-inf" || str == "-inff" \
+				|| str == "+inf" || str == "+inff")  {
+		char* endptr;
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "int: impossible" << std::endl;
+		if (str[0] == '-')
+			_double = std::strtod("-Infinity", &endptr); 
+		else
+			_double = std::strtod("Infinity", &endptr); 
+		_float = static_cast<float>(_double); 
+		std::cout << "float: " << _float << "f" << std::endl;
+		std::cout << "double: " << _double << std::endl;
+		return 1;
+	}
+	// else if (str == "-inf" || str == "-inff")  {
+	// 	char* endptr;
+	// 	std::cout << "char: impossible" << std::endl;
+	// 	std::cout << "int: impossible" << std::endl;
+	// 	_double = std::strtod("-Infinity", &endptr); 
+	// 	_float = static_cast<float>(_double); 
+	// 	std::cout << "float: " << _float << "f" << std::endl;
+	// 	std::cout << "double: " << _double << std::endl;
+	// 	return 1;
+	// }
+	return (0);
 }
 
 int		ScalarConverter::identify(const std::string& str) {
-	if ((parseData(str)))
-		return -1;
 
 	if (str.length() == 1 && !isdigit(str[0]))
 		return (CHAR);
@@ -81,6 +108,10 @@ void	ScalarConverter::processInt(const std::string& str) {
 
 
 void ScalarConverter::convert(const std::string& str) {
+	if (specialCase(str)) {
+		// return printSpecials(str);
+		return ;
+	}
 	switch (identify(str)) {
 		case(CHAR):
 			processChar(str);

@@ -1,7 +1,8 @@
 #include "ScalarConverter.hpp"
 
 int main() {
-	ScalarConverter::convert("*");
-	ScalarConverter::convert("48");
-	ScalarConverter::convert("-32f");
+	ScalarConverter::convert("42");
+	// ScalarConverter::convert("*");
+	// ScalarConverter::convert("48");
+	// ScalarConverter::convert("-32f");
 }
