@@ -1,6 +1,7 @@
 #include "ScalarConverter.hpp"
 
 #include <string>
+#include <cstdlib>
 
 char 		ScalarConverter::_char = 0;
 int			ScalarConverter::_int = 0;
@@ -114,10 +115,11 @@ int		ScalarConverter::checkIfDouble(const std::string& str) {
 	unsigned int dp = 0;
 	if (str[i] == '-')
 		i++;
+
 	while (str[i]) {
 		if (str[i] == '.')
 			dp++;
-		if (str[i] && (!isdigit(str[i]) && str[i] != '.')) {
+		if (str[i] && (!isdigit(str[i]) && str[i] != '.' && str[i] != '+')  && str[i] != 'e') {
 			return (0);
 		}
 		i++;
@@ -229,24 +231,23 @@ int		ScalarConverter::outOfRange(const std::string& str) {
 			i++;
 	while (str[i])
 	{
-		if (!isdigit(str[i]))
+		if (!isdigit(str[i]) && str[i] != '.' && str[i] != 'e' && str[i] != '+')
 			return (0);
 		i++;
 	}
 	long long int num = atoll(str.c_str());
-	std::cout << "num is " << num << std::endl;
-	if (num > INT_MAX || num < INT_MIN) {
-		std::cout << "INPUT OUT OF RANGE" << std::endl;
+	long double dm = std::numeric_limits<double>::max();
+	long double numdouble = strtod(str.c_str(), NULL);
+	if (num > INT_MAX || num < INT_MIN || num > dm || numdouble > dm) {
+		std::cout << "OUT OF RANGE"<< std::endl;
 		return (1);
 	}
 	return (0);
 }
 
 void ScalarConverter::convert(const std::string& str) {
-	// if (outOfRange(str)) {
-		
-	// 	return ;
-	// }
+	if (outOfRange(str))	
+		return ;
 	if (specialCase(str))
 		return ;
 	switch (identify(str)) {
@@ -262,63 +263,9 @@ void ScalarConverter::convert(const std::string& str) {
 		case(DOUBLE):
 			processDouble(str);
 			break;
-		// case(FLOAT):
-		// 	std::cout << "float: " << str << std::endl;
-		// 	break;
-		// case(DOUBLE):
-		// 	std::cout << "double: " << str << std::endl;
-		// 	break;
+		default:
+			std::cout << "UNABLE TO CONVERT: " << str << std::endl;
+			break;
+		
 	}
 }
-
-// void ScalarConverter::checkChar(const std::string& str) {
-// 	std::cout << "std::atoi(str.c_str()): " << std::atoi(str.c_str()) << std::endl;
-// 	if (str.length() == 1 && !isdigit(str[0]))
-// 		std::cout << "char: " << str << std::endl;
-// 	else if (std::atoi(str.c_str()) < 32 && str.length() <= 2)
-// 		std::cout << "char: " << "Non displayable" << std::endl;
-// 	else if (std::atoi(str.c_str()) >= 32 && std::atoi(str.c_str()) <= 127)
-// 		std::cout << "char: " << "'" << static_cast<char>(std::atoi(str.c_str())) << "'" << std::endl;
-// 	else if (std::atoi(str.c_str()) >= 128 || std::atoi(str.c_str()) < 0)
-// 		throw ScalarConverter::ConversionImpossible();
-// 	return ;
-// }
-
-// void ScalarConverter::checkInt(const std::string& str) {
-// 		std::cout << "int: " << std::atoi(str.c_str()) << std::endl;
-// }
-
-
-// void ScalarConverter::convert(const std::string& str) {
-// 	try {
-// 		checkChar(str);
-// 	} catch (ScalarConverter::ConversionImpossible &e) {
-// 		std::cout << "char: " << e.what() << std::endl;
-// 	}
-// 	try {
-// 		checkInt(str);
-// 	} catch (ScalarConverter::ConversionImpossible &e) {
-// 		std::cout << "int: " << e.what() << std::endl;
-// 	}
-// 	// try {
-// 	// 	checkFloat(str);
-// 	// } catch (ScalarConverter::ConversionImpossible &e) {
-// 	// 	std::cout << "float: " << e.what() << std::endl;
-// 	// }
-
-	// switch (getType(str)) {
-	// 	case(CHAR):
-	// 		std::cout << "char: " << str << std::endl;
-	// 		break;
-	// 	case(INT):
-	// 		std::cout << "int: " << str << std::endl;
-	// 		break;
-	// 	case(FLOAT):
-	// 		std::cout << "float: " << str << std::endl;
-	// 		break;
-	// 	case(DOUBLE):
-	// 		std::cout << "double: " << str << std::endl;
-	// 		break;
-
-// 	// }
-// }
