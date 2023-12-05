@@ -24,8 +24,6 @@ class ScalarConverter {
 		INT,
 		FLOAT,
 		DOUBLE,
-		SPECIAL,
-		OUTOFRANGE
 	};
 
 

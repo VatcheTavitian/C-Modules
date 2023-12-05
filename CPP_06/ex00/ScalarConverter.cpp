@@ -266,6 +266,5 @@ void ScalarConverter::convert(const std::string& str) {
 		default:
 			std::cout << "UNABLE TO CONVERT: " << str << std::endl;
 			break;
-		
 	}
 }
