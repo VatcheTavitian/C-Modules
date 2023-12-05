@@ -10,6 +10,7 @@ int main(int argc, char **argv) {
 			ScalarConverter::convert(argv[1]);
 	}
 
+	// Test cases
 	// ScalarConverter::convert("nan");
 	// ScalarConverter::convert("-inf");
 	// ScalarConverter::convert("+inff");
