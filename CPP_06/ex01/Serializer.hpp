@@ -5,8 +5,10 @@
 # include <stdint.h>
 
 typedef struct Data {
-    int x;
- } Data;
+        int             x;
+        double          y;
+        std::string  text;
+    } Data;
 
 class Serializer
 {
@@ -17,8 +19,8 @@ class Serializer
         Serializer& operator=(const Serializer& src);
 
     public:
-       
-        static uintptr_t serialize(Data* ptr);        
+        static uintptr_t serialize(Data* ptr);
+        static Data* deserialize(uintptr_t raw);    
 
 };
 
