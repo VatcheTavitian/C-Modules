@@ -13,7 +13,7 @@ public:
     Dog();
     Dog(const Dog& toCopy);
     Dog& operator=(const Dog& src);
-    ~Dog();
+    virtual ~Dog();
 
     void    makeSound() const;
 };

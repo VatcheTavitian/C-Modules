@@ -16,9 +16,9 @@ void WrongCat::operator=(const WrongCat& src) {
     this->_type = src._type;
 }
 
-// void    WrongCat::makeSound() const {
-//     std::cout << "WrongCat makes a wrong sound" << std::endl;
-// }
+void    WrongCat::makeSound() const {
+    std::cout << "WrongCat makes a wrong sound" << std::endl;
+}
 
 WrongCat::~WrongCat() {
     std::cout << "WrongCat Destructor called" << std::endl;
