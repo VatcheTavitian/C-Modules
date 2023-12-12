@@ -28,7 +28,6 @@ Bureaucrat::Bureaucrat(const Bureaucrat& toCopy) : _name(toCopy._name){
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& src) {
 	if (this == &src)
 		return (*this);
-	this->_name = src._name;
 	this->_grade = src._grade;
 	return (*this);
 }
@@ -45,17 +44,14 @@ int					Bureaucrat::getGrade() const {
 	return (this->_grade);
 }
 
-const char*	Bureaucrat::GradeTooHighException::what() throw (){
+const char*	Bureaucrat::GradeTooHighException::what() const throw (){
 	return "Grade Too High Exception";
 }
 
-const char*	Bureaucrat::GradeTooLowException::what() throw() {
+const char*	Bureaucrat::GradeTooLowException::what() const throw() {
 	return "Grade Too Low Exception";
 }
 
-const char*	Bureaucrat::FormNotSignedException::what() throw() {
-	return "Execution Error: Form Not Signed Exception";
-}
 
 void				Bureaucrat::increm() {
 	if (this->_grade <= 1)
@@ -83,7 +79,7 @@ void				Bureaucrat::executeForm(AForm const & form) {
 	try {
 		form.execute(*this);
 		std::cout << this->getName() << " executed " << form.getName() << std::endl;
-		} catch (Bureaucrat::FormNotSignedException &e) {
+		} catch (AForm::FormNotSignedException &e) {
 			std::cout << e.what()<< std::endl;
 		} catch (Bureaucrat::GradeTooLowException &e) {
 			std::cout << e.what()<< std::endl;

@@ -66,15 +66,15 @@ void		AForm::beSigned(Bureaucrat& b) {
 	}
 }
 
-const char*	AForm::GradeTooHighException::what() throw (){
+const char*	AForm::GradeTooHighException::what() const throw (){
 	return "Execution Error: Grade Too High Exception";
 }
 
-const char*	AForm::GradeTooLowException::what() throw() {
+const char*	AForm::GradeTooLowException::what() const throw() {
 	return "Execution Error: Grade Too Low Exception";
 }
 
-const char*	AForm::FormNotSignedException::what() throw() {
+const char*	AForm::FormNotSignedException::what() const throw() {
 	return "Execution Error: Form Not Signed Exception";
 }
 

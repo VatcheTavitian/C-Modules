@@ -7,20 +7,20 @@
 int	main() {
 
 	// Test ShrubberyCreationForm
-	// {
-	// Bureaucrat *tim = new Bureaucrat("tim", 137);
-	// ShrubberyCreationForm *newShrub = new ShrubberyCreationForm("home");
-	// std::cout << newShrub->getTarget() << '\n' << std::endl;
+	{
+	Bureaucrat *tim = new Bureaucrat("tim", 137);
+	ShrubberyCreationForm *newShrub = new ShrubberyCreationForm("home");
+	std::cout << newShrub->getTarget() << '\n' << std::endl;
 
-	// tim->signForm(*newShrub);
+	tim->signForm(*newShrub);
 
-	// try {
-	// newShrub->execute(*tim);
-	// } catch (AForm::FormNotSignedException& e) {
-	// 	std::cout << e.what() << std::endl;
-	// } catch (AForm::GradeTooLowException& e) {
-	// 	std::cout << e.what() << std::endl;
-	// }
+	try {
+	newShrub->execute(*tim);
+	} catch (AForm::FormNotSignedException& e) {
+		std::cout << e.what() << std::endl;
+	} catch (AForm::GradeTooLowException& e) {
+		std::cout << e.what() << std::endl;
+	}
 	
 
 
@@ -53,10 +53,11 @@ int	main() {
 	// 	Bureaucrat *tim = new Bureaucrat("Tim", 72);
 	// 	Bureaucrat *jim = new Bureaucrat("Jim", 45);
 	// 	PresidentialPardonForm *pardon = new PresidentialPardonForm("Pardon");
-
+	// 	// PresidentialPardonForm *pardonCopy = new PresidentialPardonForm(*pardon);
+	// 	// std::cout << pardonCopy->getExecGrade() << std::endl;
 	// 	try {
 	// 		tim->signForm(*pardon);
-	// 		// pardon->execute(*tim);
+	// 		pardon->execute(*tim);
 	// 		jim->executeForm(*pardon);
 			
 	// 	} catch (AForm::FormNotSignedException& e) {
@@ -67,6 +68,7 @@ int	main() {
 	// 	delete tim;
 	// 	delete jim;
 	// 	delete pardon;
+	// 	// delete pardonCopy;
 	// }
 
 }
