@@ -28,7 +28,7 @@ Bureaucrat::Bureaucrat(const Bureaucrat& toCopy) : _name(toCopy._name){
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& src) {
 	if (this == &src)
 		return (*this);
-	this->_name = src._name;
+
 	this->_grade = src._grade;
 	return (*this);
 }
@@ -41,11 +41,11 @@ int					Bureaucrat::getGrade() const {
 	return (this->_grade);
 }
 
-const char*	Bureaucrat::GradeTooHighException::what() throw (){
+const char*	Bureaucrat::GradeTooHighException::what() const throw (){
 	return "Grade Too High Exception";
 }
 
-const char*	Bureaucrat::GradeTooLowException::what() throw() {
+const char*	Bureaucrat::GradeTooLowException::what() const throw() {
 	return "Grade Too Low Exception";
 }
 
