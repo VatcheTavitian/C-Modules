@@ -12,7 +12,7 @@ public:
     Brain();
     Brain(const Brain& toCopy);
     Brain& operator=(const Brain& src);
-    ~Brain();
+    virtual ~Brain();
 
 };
 

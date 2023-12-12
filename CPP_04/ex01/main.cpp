@@ -6,31 +6,35 @@
 #include "Brain.hpp"
 
 int main() {
-{
-	
-	const Animal* i = new Dog();
-	const Animal* j = new Cat();
-	
-	delete i;
-	delete j;
-}
-{
+	{
+		
+		const Animal* i = new Dog();
+		const Animal* j = new Cat();
+		
+		delete i;
+		delete j;
+	}
+	{
+		std::cout << "\nCheck copy constructor works\n" << std::endl;
+		Dog* i = new Dog();
+		Dog* j = new Dog();
+		j->setType("Orange");
+		std::cout << "\nMemory addresses before copy" << std::endl;
+		std::cout << "Animal i = " << &i << " Type = " << i->getType() << std::endl;
+		std::cout << "Animal j = " << &j << " Type = " << j->getType() << std::endl;
+		*i = *j;
+		std::cout << std::endl;
+		std::cout << "\nMemory addresses after copy" << std::endl;
+		std::cout << "Animal i = " << &i << " Type = " << i->getType() << std::endl;
+		std::cout << "Animal j = " << &j << " Type = " << j->getType() << std::endl;
 
-}
-	std::cout << "\nCheck copy constructor works\n" << std::endl;
-	Dog* i = new Dog();
-	Dog* j = new Dog();
-	j->setType("Orange");
-	std::cout << "\nMemory addresses before copy" << std::endl;
-	std::cout << "Animal i = " << &i << " Type = " << i->getType() << std::endl;
-	std::cout << "Animal j = " << &j << " Type = " << j->getType() << std::endl;
-	*i = *j;
-	std::cout << std::endl;
-	std::cout << "\nMemory addresses after copy" << std::endl;
-	std::cout << "Animal i = " << &i << " Type = " << i->getType() << std::endl;
-	std::cout << "Animal j = " << &j << " Type = " << j->getType() << std::endl;
-
-	delete j;
-	delete i;
-	return 0;
+		delete j;
+		delete i;
+	}
+// Test from checklist
+std::cout << "\nTest from checklist" << std::endl;
+	Dog basic;
+	{
+		Dog tmp = basic;
+	}
 }

@@ -13,7 +13,7 @@ public:
     Cat();
     Cat(const Cat& toCopy);
     Cat& operator=(const Cat& src);
-    ~Cat();
+    virtual ~Cat();
 
     void    makeSound() const;
 };
