@@ -22,11 +22,9 @@ int	main() {
 		std::cout << e.what() << std::endl;
 	}
 	
-
-
-	// delete newShrub;
-	// delete tim;
-	// }
+	delete newShrub;
+	delete tim;
+	}
 
 	// // Test RobotomyRequestForm
 	// {
