@@ -1,9 +1,7 @@
 #include "Serializer.hpp"
 
 int main() {
-
-
-
+    
     Data data = {5, 2.11, "Hello"};
   
     uintptr_t serialized = Serializer::serialize(&data);

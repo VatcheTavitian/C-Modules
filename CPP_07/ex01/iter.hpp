@@ -10,13 +10,19 @@ void printFunction(T& value) {
 }
 
 template<typename T>
-void square(T& value) {
+void square(const T& value) {
     std::cout << value * value << std::endl;
     return ;
 }
 
+template<typename T >
+void print( T const & x ) { 
+    std::cout << x << std::endl; 
+    return; 
+}
+
 template<typename T>
-void iter(T *a, ssize_t len, void (*func)(T &)) {
+void iter(T *a, ssize_t len, void (*func)(const T &)) {
     for (ssize_t i = 0; i < len; i++)
         func(a[i]);
     std::cout << std::endl;
