@@ -46,10 +46,16 @@ int main() {
     //     std::cout << e.what() << std::endl;
     // }
     
-    // Add Many Random
+    // Add Many Random (dispose has random content)
+    try {
     Span spRandom = Span(10);
-    spRandom.addMany(spRandom._v.begin(), spRandom._v.end());
-    // spRandom.printContents();
+    std::vector<int>dispose(10);
+    std::generate(dispose.begin(),dispose.end(),Span::generator);
 
- 
+    spRandom.addNumber(dispose.begin(), dispose.end());
+    spRandom.printContents();
+    } catch (const std::exception& e) {
+        std::cout << e.what() << std::endl;
+    }
+    
 }

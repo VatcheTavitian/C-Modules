@@ -28,7 +28,7 @@ void Span::addNumber(int n) {
     if (this->_v.size() != this->_N)
         _v.push_back(n);
     else
-        throw Span::SpanExceptionFull();
+        throw Span::SpanExceptionSize();
 }
 
 int Span::shortestSpan() {
@@ -72,10 +72,17 @@ int Span::longestSpan() {
     return (largest - smallest);
 }
 
-void    Span::addMany(std::vector<int>::iterator start, std::vector<int>::iterator end) {
-    if (_N > std::distance(start,end))
-        throw Span::SpanExceptionError();
-    // _v.insert(_v.end(), start, end);
+int     Span::generator() {
+    return rand();
+}
+
+void    Span::addNumber(std::vector<int>::iterator start, std::vector<int>::iterator end) {
+    // This if statement should be optional depending on needs of program.
+    // If you want to expand your vector beyond _N size, remove if statement and     
+    if (_v.size() + std::distance(start, end) <= _N)
+        _v.insert(_v.end(), start,end);
+    else
+        throw Span::SpanExceptionSize();
 }
 
 void Span::printContents() {
@@ -84,8 +91,10 @@ void Span::printContents() {
         std::cout << *it << " Value " << std::endl;
 }
 
-const char* Span::SpanExceptionFull::what() const throw () {
-    return "Span container full!";
+
+
+const char* Span::SpanExceptionSize::what() const throw () {
+    return "Error: Span container too small!";
 }
 
 const char* Span::SpanExceptionError::what() const throw () {

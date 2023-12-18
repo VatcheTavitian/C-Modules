@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <vector>
+# include <cstdlib>
 
 class Span
 {
@@ -21,10 +22,11 @@ class Span
     int     shortestSpan();
     int     longestSpan();
 
-    void    addMany(std::vector<int>::iterator start, std::vector<int>::iterator end);
+    void    addNumber(std::vector<int>::iterator start, std::vector<int>::iterator end);
     void    printContents();
+    static int     generator();
 
-    class SpanExceptionFull: public std::exception {
+    class SpanExceptionSize: public std::exception {
         virtual const char* what() const throw();
     };
 
