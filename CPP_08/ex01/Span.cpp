@@ -91,8 +91,6 @@ void Span::printContents() {
         std::cout << *it << " Value " << std::endl;
 }
 
-
-
 const char* Span::SpanExceptionSize::what() const throw () {
     return "Error: Span container too small!";
 }
