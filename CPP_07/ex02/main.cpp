@@ -1,71 +1,63 @@
+#include <iostream>
 #include "Array.hpp"
 
-int main() {
-
-    // // int * a = new int();
-    // // std::cout << *a <<std::endl;
-    // // delete a;
-
-    // // test ints
-    // {
-    // Array<int>* arrayOfInts = new Array<int>(5);
-  
-    // // fill values
-    // for (unsigned int i = 0; i < 5; i++)
-    //     (*arrayOfInts)[i] = i * i;
-    // // print values
-    // for (unsigned int i = 0; i < 5; i++)
-    //     std::cout << "(*arrayOfInts)" << &(*arrayOfInts)[i] << "[" << i << "] = " << (*arrayOfInts)[i] << std::endl;
-    // std::cout << arrayOfInts->size() <<std::endl;
-    // // copy to new array
-
-    // Array<int>* arrayCopy = new Array<int>(*arrayOfInts);
-    // for (unsigned int i = 0; i < 5; i++)
-    //     std::cout << "(*arrayCopy)"  << &(*arrayCopy)[i] <<"[" << i << "] = " << (*arrayCopy)[i] << std::endl;
-    // std::cout << arrayCopy->size() <<std::endl;
-    // // test out of range exception
-    // try {
-    //     std::cout << (*arrayCopy)[5] <<std::endl;
-    // }
-    // catch (Array<int>::OutOfRange& e) {
-    //     std::cout << "ERROR: " << e.what() <<std::endl;
-    // }
-
-    // delete arrayOfInts;
-    // delete arrayCopy;
-    // }
-
-    // // Test strings
-    // {
-    // Array<std::string>* arrayOfStrings= new Array<std::string>(5);
-  
-    // // fill values
-    // for (unsigned int i = 0; i < 5; i++)
-    //     (*arrayOfStrings)[i] = "word" + std::to_string(i);
-    // // print values
-    // for (unsigned int i = 0; i < 5; i++)
-    //     std::cout << "(*arrayOfStrings)" << &(*arrayOfStrings)[i] << "[" << i << "] = " << (*arrayOfStrings)[i] << std::endl;
-    // std::cout << arrayOfStrings->size() <<std::endl;
-    // // copy to new array
-
-    // Array<std::string>* stringArrayCopy = new Array<std::string>(*arrayOfStrings);
-    // for (unsigned int i = 0; i < 5; i++)
-    //     std::cout << "(*stringArrayCopy)"  << &(*stringArrayCopy)[i] <<"[" << i << "] = " << (*stringArrayCopy)[i] << std::endl;
-    // std::cout << stringArrayCopy->size() <<std::endl;
-    // // test out of range exception
-    // try {
-    //     std::cout << (*stringArrayCopy)[5] <<std::endl;
-    // }
-    // catch (Array<std::string>::OutOfRange& e) {
-    //     std::cout << "ERROR: " << e.what() <<std::endl;
-    // }
-
-    // delete arrayOfStrings;
-    // delete stringArrayCopy;
-    // }
-
-    // Checklist Test
+#define MAX_VAL 750
+int main(int, char**)
+{
+    // Main provided in subject
     {
+        std::cout << "Main provided in subject...\n";
+        Array<int> numbers(MAX_VAL);
+        int* mirror = new int[MAX_VAL];
+        srand(time(NULL));
+        for (int i = 0; i < MAX_VAL; i++)
+        {
+            const int value = rand();
+            numbers[i] = value;
+            mirror[i] = value;
+        }
+        //SCOPE
+        {
+            Array<int> tmp = numbers;
+            Array<int> test(tmp);
+        }
+
+        for (int i = 0; i < MAX_VAL; i++)
+        {
+            if (mirror[i] != numbers[i])
+            {
+                std::cerr << "didn't save the same value!!" << std::endl;
+                return 1;
+            }
+        }
+        try
+        {
+            numbers[-2] = 0;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        try
+        {
+            numbers[MAX_VAL] = 0;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+
+        for (int i = 0; i < MAX_VAL; i++)
+        {
+            numbers[i] = rand();
+        }
+        
+        delete [] mirror;
+    }
+
+    // Main provided in checklist
+    {
+        std::cout << "\nMain provided in checklist...\n";
         Array<int>* emptyArray = new Array<int>();
         std::cout << "emptyArray Created at: " << emptyArray <<std::endl;
 
@@ -91,4 +83,5 @@ int main() {
         std::cout << "Array at index 3 is now: " << (*notEmptyArray)[3] <<std::endl;
         delete notEmptyArray;
     }
+    
 }
