@@ -25,7 +25,6 @@ template<typename T>
 void iter(T *a, ssize_t len, void (*func)(const T &)) {
     for (ssize_t i = 0; i < len; i++)
         func(a[i]);
-    std::cout << std::endl;
 }
 
 #endif
