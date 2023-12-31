@@ -8,12 +8,12 @@ RPN::RPN(const std::string& formula) {
 	std::cout << "RPN constructor called" << std::endl;
 	if (!this->_isValid(formula))
 		std::cout << "Error: formula contains illegal characters or is invalid" << std::endl;
-	this->_intoArray(formula);
-
+	// this->_intoArray(formula);
+	this->_intoStack(formula);
 	//print
-	for (std::vector<std::string>::iterator it = this->_array.begin(); it != this->_array.end(); ++it) {
-        std::cout << *it << "\n";
-    }
+	// for (std::vector<std::string>::iterator it = this->_array.begin(); it != this->_array.end(); ++it) {
+    //     std::cout << *it << "\n";
+    // }
 
 
 }
@@ -99,3 +99,86 @@ void	RPN::_intoArray(const std::string& formula) {
 			}
 	}
 }
+
+	void	RPN::_intoStack(const std::string& formula) {
+		int i = 0;
+		int count = 0;
+		std::string ops = "+-*/";
+		while (i < static_cast<int>(formula.length())) {
+			if (formula[i] == ' ')
+				i++;
+			if (isdigit(formula[i])) {
+				int num = 0;
+				while (isdigit(formula[i])) {
+					num = num * 10 + (formula[i] - '0');
+					i++;
+				}
+				// std::cout << "ADDED NUM: " << num <<std::endl;
+				this->_stack.push(num);
+				count++;
+			}
+			else if (formula[i] == '+' || formula[i] == '-'
+					|| formula[i] == '*' || formula[i] == '/') {
+				this->_evaluate(count, formula[i]);
+				i++;
+				count = 0;
+				// std::cout << "again = " << i << std::endl;
+			}
+			i++;
+		}
+		std::cout << "RESULT = " << _stack.top() << "- stack length = " << _stack.size();
+	}
+
+	void	RPN::_evaluate(int count, char operation) {
+		int doOp;
+		int num1 = 0;
+		int num2 = 0;
+		int result = 0;
+
+		if (operation == '+')
+			doOp = ADD;
+		else if (operation == '-')
+			doOp = SUBTRACT;
+		else if (operation == '*')
+			doOp = MULTIPLY;
+		else if (operation == '/')
+			doOp = DIVIDE;
+
+		if (count == 1) {
+			num1 = this->_stack.top();
+			this->_stack.pop();
+			num2 = this->_stack.top();
+		}
+		else if (count == 2) {
+			num1 = this->_stack.top();
+			this->_stack.pop();
+			num2 = this->_stack.top();
+			this->_stack.pop();
+		}
+		switch (doOp){
+			case (0):
+				result = num1 + num2;
+				break;
+			case (1):
+				result = num2 - num1;
+				break;
+			case (2):
+				result = num1 * num2;
+				break;
+			case (3):
+				result = num1 / num2;
+				break;
+		}
+		// std::cout << "NUM1 IS " << num1 << std::endl;
+		// std::cout << "NUM2 IS " << num2 << std::endl;
+		// std::cout << "RESULT HERE IS " << result << std::endl;
+		if (count == 2)
+			this->_stack.push(result);
+		else {
+			this->_stack.pop();
+			this->_stack.push(result);
+		}
+			
+
+		// std::cout << "found " << count << operation << std::endl;
+	}
