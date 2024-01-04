@@ -6,6 +6,7 @@
 # include <string>
 # include <stack>
 
+
 class RPN {
 	private:
 		std::stack<int>	_stack;
@@ -14,6 +15,7 @@ class RPN {
 		bool 	_operatorsValid(const std::string& formula);
 		void	_intoStack(const std::string& formula);
 		void	_evaluate(char operation);
+		void	_deepCopy(const RPN& src);
 
 		enum oper {
 			ADD,
@@ -32,6 +34,8 @@ class RPN {
 		public:
 				virtual const char* what() const throw();
 	};
+
+
 };
 
 #endif

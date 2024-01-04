@@ -1,7 +1,7 @@
 #include "RPN.hpp"
 
 RPN::RPN() {
-	// std::cout << "RPN default constructor called" << std::endl;
+	std::cout << "RPN default constructor called" << std::endl;
 }
 
 RPN::RPN(const std::string& formula) {
@@ -28,6 +28,7 @@ RPN& RPN::operator=(const RPN& src) {
 	std::cout << "RPN assignment operator called" << std::endl;
 	if (this == &src)
 		return (*this);
+	_deepCopy(src);
 	return (*this);
 }
 
@@ -132,6 +133,20 @@ bool RPN::_operatorsValid(const std::string& formula) {
 		else	
 			throw RPN::InvalidSyntax();
 
+	}
+
+	void	RPN::_deepCopy(const RPN& src) {
+		std::stack<int>	tempStack;
+		std::stack<int> srctempStack = src._stack;
+
+		std::cout << &srctempStack  << " mem address of srctempStack \n";
+		std::cout << &src._stack << " mem address of src._stack \n";
+		while (srctempStack.size() ) {
+			int num = srctempStack.top();
+			tempStack.push(num);
+			this->_stack.push(num);	
+			srctempStack.pop();
+		}
 	}
 
 	const char* RPN::InvalidSyntax::what() const throw() {
