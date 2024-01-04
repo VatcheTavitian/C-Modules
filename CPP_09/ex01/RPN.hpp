@@ -6,16 +6,16 @@
 # include <string>
 # include <stack>
 
+
 class RPN {
 	private:
-		std::vector<std::string>	_array;
 		std::stack<int>	_stack;
 		RPN();
 		bool 	_isValid(const std::string& formula);
-		void	_intoArray(const std::string& formula);
+		bool 	_operatorsValid(const std::string& formula);
 		void	_intoStack(const std::string& formula);
-		void	_evaluate(int count, char operation);
-
+		void	_evaluate(char operation);
+		void	_deepCopy(const RPN& src);
 
 		enum oper {
 			ADD,
@@ -29,6 +29,11 @@ class RPN {
 		~RPN();
 		RPN(const RPN& toCopy);
 		RPN& operator=(const RPN& src);
+
+	class InvalidSyntax: public std::exception {
+		public:
+				virtual const char* what() const throw();
+	};
 
 
 };

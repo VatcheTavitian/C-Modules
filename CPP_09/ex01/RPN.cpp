@@ -5,21 +5,18 @@ RPN::RPN() {
 }
 
 RPN::RPN(const std::string& formula) {
-	std::cout << "RPN constructor called" << std::endl;
-	if (!this->_isValid(formula))
-		std::cout << "Error: formula contains illegal characters or is invalid" << std::endl;
-	// this->_intoArray(formula);
+	// std::cout << "RPN constructor called" << std::endl;
+	if (!this->_isValid(formula)) // || !this->_operatorsValid(formula))
+		throw RPN::InvalidSyntax();
 	this->_intoStack(formula);
-	//print
-	// for (std::vector<std::string>::iterator it = this->_array.begin(); it != this->_array.end(); ++it) {
-    //     std::cout << *it << "\n";
-    // }
-
-
+	if (this->_stack.size() == 1)
+		std::cout << _stack.top() << std::endl;
+	else
+		throw RPN::InvalidSyntax();
 }
 
 RPN::~RPN() {
-	std::cout << "RPN destructor called" << std::endl;
+	// std::cout << "RPN destructor called" << std::endl;
 }
 
 RPN::RPN(const RPN& toCopy) {
@@ -31,6 +28,7 @@ RPN& RPN::operator=(const RPN& src) {
 	std::cout << "RPN assignment operator called" << std::endl;
 	if (this == &src)
 		return (*this);
+	_deepCopy(src);
 	return (*this);
 }
 
@@ -55,55 +53,26 @@ bool RPN::_isValid(const std::string& formula) {
 			return (false);
 		i++;
 	}
-	i = 0;
-	while (formula[i]) {
-		if ((formula[i] == '/' || formula[i] == '*'))
-		{
-			if (formula[i + 1] != ' ')
+	return (true);
+}
+
+bool RPN::_operatorsValid(const std::string& formula) {
+	int i = 0;
+
+	while (i < static_cast<int>(formula.length())) {
+		if (formula[i] == '+' || formula[i] == '-' || formula[i] == '*' || formula[i] == '/') {
+			if ((i + 2 < static_cast<int>(formula.length())) &&
+				(formula[i + 2] == '+' || formula[i + 2] == '-' || formula[i + 2] == '*' || formula[i + 2] == '/'))
 				return (false);
-			if (i + 2 <= static_cast<int>(formula.length())) {
-				if (formula[i + 2] == '*' || formula[i + 2] == '/')
-					return (false);
-			}
 		}
-		i++;	
+		i++;
 	}
 	return (true);
 }
 
-void	RPN::_intoArray(const std::string& formula) {
-	int i = 0;
-	int j = 0;
-	std::string temp;
-
-	while (i < static_cast<int>(formula.length())) {
-		if (formula[i] == ' ') {
-			while (formula[i] == ' ')
-			 	i++;
-			j = i;
-		}
-		else if (isdigit(formula[i])) {
-			while (isdigit(formula[i]))
-				i++;
-			temp = formula.substr(j, i - j);
-			this->_array.insert(this->_array.begin(), temp);
-			i++;
-			j = i;
-		}
-		else if (formula[i] == '+' || formula[i] == '-'
-			|| formula[i] == '/' || formula[i] == '*') {
-				i++;
-				temp = formula.substr(j, i - j );
-				this->_array.insert(this->_array.begin(), temp);
-				j = i;
-			}
-	}
-}
-
 	void	RPN::_intoStack(const std::string& formula) {
 		int i = 0;
-		int count = 0;
-		std::string ops = "+-*/";
+	
 		while (i < static_cast<int>(formula.length())) {
 			if (formula[i] == ' ')
 				i++;
@@ -113,28 +82,22 @@ void	RPN::_intoArray(const std::string& formula) {
 					num = num * 10 + (formula[i] - '0');
 					i++;
 				}
-				// std::cout << "ADDED NUM: " << num <<std::endl;
 				this->_stack.push(num);
-				count++;
 			}
 			else if (formula[i] == '+' || formula[i] == '-'
 					|| formula[i] == '*' || formula[i] == '/') {
-				this->_evaluate(count, formula[i]);
+				this->_evaluate(formula[i]);
 				i++;
-				count = 0;
-				// std::cout << "again = " << i << std::endl;
 			}
-			i++;
+			else
+				i++;
 		}
-		std::cout << "RESULT = " << _stack.top() << "- stack length = " << _stack.size();
+		
 	}
 
-	void	RPN::_evaluate(int count, char operation) {
-		int doOp;
-		int num1 = 0;
-		int num2 = 0;
-		int result = 0;
-
+	void	RPN::_evaluate(char operation) {
+		int doOp = 0, num1 = 0, num2 = 0, result = 0;
+	
 		if (operation == '+')
 			doOp = ADD;
 		else if (operation == '-')
@@ -144,18 +107,12 @@ void	RPN::_intoArray(const std::string& formula) {
 		else if (operation == '/')
 			doOp = DIVIDE;
 
-		if (count == 1) {
-			num1 = this->_stack.top();
-			this->_stack.pop();
-			num2 = this->_stack.top();
-		}
-		else if (count == 2) {
+		if (this->_stack.size() >= 2) {
 			num1 = this->_stack.top();
 			this->_stack.pop();
 			num2 = this->_stack.top();
 			this->_stack.pop();
-		}
-		switch (doOp){
+			switch (doOp){
 			case (0):
 				result = num1 + num2;
 				break;
@@ -166,19 +123,32 @@ void	RPN::_intoArray(const std::string& formula) {
 				result = num1 * num2;
 				break;
 			case (3):
-				result = num1 / num2;
+				if (num1 == 0)
+					throw RPN::InvalidSyntax();
+				result = num2 / num1;
 				break;
-		}
-		// std::cout << "NUM1 IS " << num1 << std::endl;
-		// std::cout << "NUM2 IS " << num2 << std::endl;
-		// std::cout << "RESULT HERE IS " << result << std::endl;
-		if (count == 2)
-			this->_stack.push(result);
-		else {
-			this->_stack.pop();
+			}
 			this->_stack.push(result);
 		}
-			
+		else	
+			throw RPN::InvalidSyntax();
 
-		// std::cout << "found " << count << operation << std::endl;
+	}
+
+	void	RPN::_deepCopy(const RPN& src) {
+		std::stack<int>	tempStack;
+		std::stack<int> srctempStack = src._stack;
+
+		std::cout << &srctempStack  << " mem address of srctempStack \n";
+		std::cout << &src._stack << " mem address of src._stack \n";
+		while (srctempStack.size() ) {
+			int num = srctempStack.top();
+			tempStack.push(num);
+			this->_stack.push(num);	
+			srctempStack.pop();
+		}
+	}
+
+	const char* RPN::InvalidSyntax::what() const throw() {
+		return "Error: invalid syntax";
 	}
