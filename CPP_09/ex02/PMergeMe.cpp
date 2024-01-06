@@ -113,52 +113,14 @@ void PMergeMe::mergeSort(std::vector<int>& S, int left, int right) {
     }
 }
 
-// void PMergeMe::mergeSort(std::vector<int>& S, int size) {
-//     int num = 0;
-//     bool odd = false;
-    
-  
-
-
-//     if (size <= 1)
-//         return ;
-//     if (S.size() % 2 != 0) {
-//         odd = true;
-//         num = S.back();
-//         S.pop_back();
-//         size--;
-//     }
-//     for (int i = 0; i < size; i += 2) 
-//         swapValues(S[i], S[i + 1]);
-
-//     unsigned long i = 0;
-//     while (i < 2) {
-//         if (S[i + 1] < S[i]) {
-//             std::cout << "S[i + 2] < S[i] = " << S[i + 1] << S[i] << std::endl;
-//             swapValues(S[i], S[i + 2]);
-//         }
-//         i++;
-//     }
-
-
-//     if (odd) {
-//         unsigned long i = 0;
-//         while (i < S.size() && S[i + 1] < num)
-//             i++;
-//         S.insert(S.begin() + i, num);
-//     }
-//     int mid = size / 2;
-//     mergeSort(S, mid);
-//     mergeSort(S, size - mid);
-// }
-
 void PMergeMe::sortVector(int size) {
     int     num = 0;
     bool    odd = false;
-
+    double startTime = std::clock();
+  
     if (size <= 1)
         return;
-    //   std::cout << this->_vector.size() <<"\n";
+    printValues("Before:");
     if (size % 2 != 0) {
         odd = true;
         num = this->_vector[this->_vector.size() - 1];
@@ -178,17 +140,9 @@ void PMergeMe::sortVector(int size) {
        S.push_back(this->_vector[i]);
     }
       
-    // mergeSort(S, S.size());
 
     mergeSort(S, 0, S.size() - 1);
 
-    // std::cout << "Entered" << std::endl;
-    // for (unsigned long i = 0; i < _vector.size(); i++)
-    //                 std::cout << _vector[i] << std::endl;
-    //         std::cout << "\n" << std::endl;
-
-    // for (unsigned long i = 0; i < S.size(); i++)
-    //         std::cout << S[i] << std::endl;
 
     for (unsigned long i = 0; i < this->_vector.size(); i+=2) {
         for (unsigned long j = 0; j < S.size(); j++) {
@@ -198,17 +152,6 @@ void PMergeMe::sortVector(int size) {
             }
         }
     }
-
-  
-
-    //     // std::cout << " this->_vector[i] = " <<  this->_vector[i] << std::endl;
-    //     //  std::cout << "S[i] = " << S[i] << std::endl;
-    //     for (unsigned long j = 1; j < S.size(); j+=2)
-    //         if (this->_vector[i] < S[j]) {
-    //             S.insert(S.begin() + i, this->_vector[i]);
-    //             // std::cout << " STUCK this->_vector[i] = " <<  this->_vector[i] << " S[j] = " <<  S[j] << std::endl;
-    //         }
-    // }
 
     this->_vector = S;
 
@@ -223,75 +166,21 @@ void PMergeMe::sortVector(int size) {
         } 
         this->_vector.insert(this->_vector.begin() + i, num);
     }
-    for (unsigned long i = 0; i < this->_vector.size(); i++)
-            std::cout << this->_vector[i] << std::endl;
+    double finishTime = clock();
   
+    double totalTime = (finishTime - startTime) / CLOCKS_PER_SEC * 1000000;
+    // for (unsigned long i = 0; i < this->_vector.size(); i++)
+    //         std::cout << this->_vector[i] << std::endl;
+     printValues("After: ");
+     std::cout << "Time to process range of " << this->_vector.size() << " elements with std::vector " << totalTime << " us" << std::endl;
  }
 
-
-// void PMergeMe::merge(std::vector<int>& arr, int left, int mid, int right) {
-//     int num1 = mid - left + 1;
-//     int num2 = right - mid;
-
-//     std::vector<int> L(num1);
-//     std::vector<int> R(num2);
-
-//     for (int i = 0; i < num1; i++)
-//         L[i] = arr[left + i];
-//     for (int i = 0; i < num2; i++)
-//         R[i] = arr[mid + i + 1];
-
-    
-
-//     for(int i = 0; i < static_cast<int>(R.size()); i++) {
-//         std::cout << "Starting with  -> " << L.size() << std::endl;
-//         int number = L[i];
-//         int j = 0;
-//         while (j < static_cast<int>(R.size()) && number > R[j]) {
-//             j++;
-//         }
-//         R.insert(R.begin() + j, number);
-//         std::cout << "INSERTED -> " << number << std::endl;
-//     }
-    
-    // while (i < num1 && j < num2) {
-    //     if (L[i] <= R[j]) {
-    //         arr[k] = L[i];
-    //         i++;
-    //     } else {
-    //         arr[k] = R[j];
-    //         j++;
-    //     }
-    //     k++;
-    // }
-
-    // Copy the remaining elements of L[], if there are any
-    // while (i < num1) {
-    //     arr[k] = L[i];
-    //     i++;
-    //     k++;
-    // }
-
-    // // Copy the remaining elements of R[], if there are any
-    // while (j < num2) {
-    //     arr[k] = R[j];
-    //     j++;
-    //     k++;
-    // }
-    
-// }
-
-// void PMergeMe::mergeInsert(std::vector<int> vect, int left, int right) {
-//     if (left < right) {
-//         int midValue = left + (right - left) / 2;
-    
-//     mergeInsert(vect, left, midValue);
-//     mergeInsert(vect, midValue + 1, right);
-
-//     merge(vect, left, midValue, right);
-
-//     }
-// }
+void PMergeMe::printValues(std::string pos) {
+    std::cout << pos << ":   ";
+    for (unsigned long i = 0; i < this->_vector.size(); i++)
+            std::cout << this->_vector[i] << " ";
+    std::cout << "\n";
+}
 
 const char* PMergeMe::InvalidInput::what() const throw() {
 		return "Error: invalid syntax";

@@ -14,6 +14,7 @@ private:
     void _addToVector(char** argv, int count);
 
     void merge(std::vector<int>& arr, int left, int mid, int right);
+    void printValues(std::string pos);
 public:
     std::vector<int> _vector; // make private after testing
     PMergeMe(char** argv, int count);
