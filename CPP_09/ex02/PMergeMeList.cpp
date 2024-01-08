@@ -1,33 +1,33 @@
 #include "PMergeMeList.hpp"
 
-PMergeMe::PMergeMe() {
+PMergeMeList::PMergeMeList() {
     std::cout << "Default constructor called" << std::endl;
 }
 
-PMergeMe::PMergeMe(char** argv, int count) {
+PMergeMeList::PMergeMeList(char** argv, int count) {
     // std::cout << "Constructor called" << std::endl;
     if (!this->_isValid(argv, count))
-        throw (PMergeMe::InvalidInput());
-    this->_addToVector(argv, count);
+        throw (PMergeMeList::InvalidInput());
+    this->_addToList(argv, count);
 }
 
-PMergeMe::PMergeMe(const PMergeMe& toCopy) {
+PMergeMeList::PMergeMeList(const PMergeMeList& toCopy) {
     std::cout << "Copy constructor called" << std::endl;
     *this = toCopy;
 }
 
-PMergeMe& PMergeMe::operator=(const PMergeMe& src) {
+PMergeMeList& PMergeMeList::operator=(const PMergeMeList& src) {
     if (this == &src)
         return (*this);
     // DEEP COPY content
     return (*this);
 }
 
-PMergeMe::~PMergeMe() {
+PMergeMeList::~PMergeMeList() {
     std::cout << "Destructor called" << std::endl;
 }
 
-bool PMergeMe::_isValid(char** argv, int count) {
+bool PMergeMeList::_isValid(char** argv, int count) {
     int i = 0;
     int x = 1;
 
@@ -44,12 +44,12 @@ bool PMergeMe::_isValid(char** argv, int count) {
     return (true);
 }
 
-void PMergeMe::_addToVector(char** argv, int count) {
+void PMergeMeList::_addToList(char** argv, int count) {
     for (int i = 1; i < count; i++)
-        this->_vector.push_back(std::atoi(argv[i]));
+        this->_list.push_back(Node(std::atoi(argv[i])));
 }
 
-void PMergeMe::swapValues(int& value1, int& value2) {
+void PMergeMeList::swapValues(int& value1, int& value2) {
     int temp = 0;
     if (value2 < value1) {
         temp = value1;
@@ -58,46 +58,51 @@ void PMergeMe::swapValues(int& value1, int& value2) {
     }
 }
 
-void PMergeMe::merge(std::vector<int>& S, int left, int mid, int right) {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+void PMergeMeList::merge(std::list<Node>& S, int left, int mid, int right) {
+    (void) S;
+    (void) left;
+    (void) mid;
+    (void) right;
+    
+    // int n1 = mid - left + 1;
+    // int n2 = right - mid;
 
-    std::vector<int> L(n1), R(n2);
+    // std::list<int> L(n1), R(n2);
 
-    for (int i = 0; i < n1; i++)
-        L[i] = S[left + i];
-    for (int j = 0; j < n2; j++)
-        R[j] = S[mid + 1 + j];
+    // for (int i = 0; i < n1; i++)
+    //     L[i] = S[left + i];
+    // for (int j = 0; j < n2; j++)
+    //     R[j] = S[mid + 1 + j];
 
-    int i = 0, j = 0, k = left;
+    // int i = 0, j = 0, k = left;
 
-    while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            S[k] = L[i];
-            i++;
-        } else {
-            S[k] = R[j];
-            j++;
-        }
-        k++;
-    }
+    // while (i < n1 && j < n2) {
+    //     if (L[i] <= R[j]) {
+    //         S[k] = L[i];
+    //         i++;
+    //     } else {
+    //         S[k] = R[j];
+    //         j++;
+    //     }
+    //     k++;
+    // }
 
-    while (i < n1) {
-        S[k] = L[i];
-        i++;
-        k++;
-    }
+    // while (i < n1) {
+    //     S[k] = L[i];
+    //     i++;
+    //     k++;
+    // }
 
-    while (j < n2) {
-        S[k] = R[j];
-        j++;
-        k++;
-    }
+    // while (j < n2) {
+    //     S[k] = R[j];
+    //     j++;
+    //     k++;
+    // }
     
 }
 
 
-void PMergeMe::mergeSort(std::vector<int>& S, int left, int right) {
+void PMergeMeList::mergeSort(std::list<Node>& S, int left, int right) {
   
     if (left < right) {
             
@@ -110,76 +115,93 @@ void PMergeMe::mergeSort(std::vector<int>& S, int left, int right) {
     }
 }
 
-void PMergeMe::sortVector(int size) {
-    int     num = 0;
+void PMergeMeList::sortList(int size) {
+ 
+    // Node     lastnum = this->_list.back();
     bool    odd = false;
-    double startTime = std::clock();
+    // double startTime = std::clock();
   
     if (size <= 1)
         return;
     printValues("Before:");
     if (size % 2 != 0) {
         odd = true;
-        num = this->_vector[this->_vector.size() - 1];
-        this->_vector.pop_back();
+        this->_list.pop_back();
         size--;
     }
-    for (int i = 0; i < size; i += 2) {
-         int temp = 0;
-        if (this->_vector[i + 1] < this->_vector[i] ) {
-            temp = this->_vector[i] ;
-            this->_vector[i]  = this->_vector[i + 1] ;
-            this->_vector[i + 1] = temp;
-         }
+    // std::cout << "LastNum here is " << lastnum.value << std::endl;
+    // std::cout << "ODD here is " << odd << std::endl;
+    //  std::cout << "Size now  is " << _list.size() << std::endl;
+ 
+    for (std::list<Node>::iterator it = this->_list.begin(); it != this->_list.end();) {
+         std::cout << "Looking at " << it->value<< std::endl;
+        std::list<Node>::iterator nextIt = it;
+        nextIt++;
+        if (it->value > nextIt->value )
+            this->_list.splice(it, _list, nextIt);
+        else
+            it++;
+        it++;
+
+    }   
+
+    std::list<Node> S;
+     for (std::list<Node>::iterator it = this->_list.begin(); it != this->_list.end();) {
+        it++;
+        if (it == this->_list.end())
+            break ;
+        S.push_back(*it);
+        it++;
     }
-    std::vector<int> S;
-    for (unsigned long i = 1; i < this->_vector.size(); i += 2) {
-       S.push_back(this->_vector[i]);
+    
+    std::cout << "Printing S\n";
+    for (std::list<Node>::iterator it = S.begin(); it != S.end(); it++) {
+         std::cout << it->value <<"\n";
     }
       
 
-    mergeSort(S, 0, S.size() - 1);
+    // mergeSort(S, 0, S.size() - 1);
 
 
-    for (unsigned long i = 0; i < this->_vector.size(); i+=2) {
-        for (unsigned long j = 0; j < S.size(); j++) {
-            if (this->_vector[i] < S[j]) {
-                S.insert(S.begin() + j, this->_vector[i]);
-                break ;
-            }
-        }
-    }
+    // for (unsigned long i = 0; i < this->_vector.size(); i+=2) {
+    //     for (unsigned long j = 0; j < S.size(); j++) {
+    //         if (this->_vector[i] < S[j]) {
+    //             S.insert(S.begin() + j, this->_vector[i]);
+    //             break ;
+    //         }
+    //     }
+    // }
 
-    this->_vector = S;
+    // this->_vector = S;
 
-    if (odd) {
-        unsigned long i = 0;
-        int current = INT_MIN;
-        while (i <  this->_vector.size()) {
-            if (num >= current && num <= this->_vector[i])
-                break;
-            current = this->_vector[i];
-            i++;
-        } 
-        this->_vector.insert(this->_vector.begin() + i, num);
-    }
-    double finishTime = clock();
+    // if (odd) {
+    //     unsigned long i = 0;
+    //     int current = INT_MIN;
+    //     while (i <  this->_vector.size()) {
+    //         if (num >= current && num <= this->_vector[i])
+    //             break;
+    //         current = this->_vector[i];
+    //         i++;
+    //     } 
+    //     this->_vector.insert(this->_vector.begin() + i, num);
+    // }
+    // double finishTime = clock();
   
-    double totalTime = (finishTime - startTime) / CLOCKS_PER_SEC * 1000000;
-    // for (unsigned long i = 0; i < this->_vector.size(); i++)
-    //         std::cout << this->_vector[i] << std::endl;
-     printValues("After: ");
-     std::cout << "Time to process range of " << this->_vector.size() << " elements with std::vector " << totalTime << " us" << std::endl;
+    // double totalTime = (finishTime - startTime) / CLOCKS_PER_SEC * 1000000;
+    // // for (unsigned long i = 0; i < this->_vector.size(); i++)
+    // //         std::cout << this->_vector[i] << std::endl;
+    //  printValues("After: ");
+    //  std::cout << "Time to process range of " << this->_vector.size() << " elements with std::vector " << totalTime << " us" << std::endl;
  }
 
-void PMergeMe::printValues(std::string pos) {
+void PMergeMeList::printValues(std::string pos) {
     std::cout << pos << ":   ";
-    for (unsigned long i = 0; i < this->_vector.size(); i++)
-            std::cout << this->_vector[i] << " ";
+    for (std::list<Node>::iterator it = this->_list.begin(); it != this->_list.end(); it++)
+            std::cout << it->value  << " ";
     std::cout << "\n";
 }
 
-const char* PMergeMe::InvalidInput::what() const throw() {
+const char* PMergeMeList::InvalidInput::what() const throw() {
 		return "Error: invalid syntax";
 	}
 
