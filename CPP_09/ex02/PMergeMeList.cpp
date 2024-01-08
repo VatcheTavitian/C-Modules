@@ -46,7 +46,8 @@ bool PMergeMeList::_isValid(char** argv, int count) {
 
 void PMergeMeList::_addToList(char** argv, int count) {
     for (int i = 1; i < count; i++)
-        this->_list.push_back(Node(std::atoi(argv[i])));
+        this->_list.push_back(std::atoi(argv[i]));
+        // this->_list.push_back(Node(std::atoi(argv[i])));
 }
 
 void PMergeMeList::swapValues(int& value1, int& value2) {
@@ -58,7 +59,7 @@ void PMergeMeList::swapValues(int& value1, int& value2) {
     }
 }
 
-void PMergeMeList::merge(std::list<Node>& S, int left, int mid, int right) {
+void PMergeMeList::merge(std::list<int>& S, int left, int mid, int right) {
     (void) S;
     (void) left;
     (void) mid;
@@ -102,7 +103,7 @@ void PMergeMeList::merge(std::list<Node>& S, int left, int mid, int right) {
 }
 
 
-void PMergeMeList::mergeSort(std::list<Node>& S, int left, int right) {
+void PMergeMeList::mergeSort(std::list<int>& S, int left, int right) {
   
     if (left < right) {
             
@@ -133,11 +134,11 @@ void PMergeMeList::sortList(int size) {
     // std::cout << "ODD here is " << odd << std::endl;
     //  std::cout << "Size now  is " << _list.size() << std::endl;
  
-    for (std::list<Node>::iterator it = this->_list.begin(); it != this->_list.end();) {
-         std::cout << "Looking at " << it->value<< std::endl;
-        std::list<Node>::iterator nextIt = it;
+    for (std::list<int>::iterator it = this->_list.begin(); it != this->_list.end();) {
+         std::cout << "Looking at " << *it<< std::endl;
+        std::list<int>::iterator nextIt = it;
         nextIt++;
-        if (it->value > nextIt->value )
+        if (*it > *nextIt )
             this->_list.splice(it, _list, nextIt);
         else
             it++;
@@ -145,8 +146,8 @@ void PMergeMeList::sortList(int size) {
 
     }   
 
-    std::list<Node> S;
-     for (std::list<Node>::iterator it = this->_list.begin(); it != this->_list.end();) {
+    std::list<int> S;
+     for (std::list<int>::iterator it = this->_list.begin(); it != this->_list.end();) {
         it++;
         if (it == this->_list.end())
             break ;
@@ -155,8 +156,8 @@ void PMergeMeList::sortList(int size) {
     }
     
     std::cout << "Printing S\n";
-    for (std::list<Node>::iterator it = S.begin(); it != S.end(); it++) {
-         std::cout << it->value <<"\n";
+    for (std::list<int>::iterator it = S.begin(); it != S.end(); it++) {
+         std::cout << *it <<"\n";
     }
       
 
@@ -196,8 +197,8 @@ void PMergeMeList::sortList(int size) {
 
 void PMergeMeList::printValues(std::string pos) {
     std::cout << pos << ":   ";
-    for (std::list<Node>::iterator it = this->_list.begin(); it != this->_list.end(); it++)
-            std::cout << it->value  << " ";
+    for (std::list<int>::iterator it = this->_list.begin(); it != this->_list.end(); it++)
+            std::cout << *it  << " ";
     std::cout << "\n";
 }
 
