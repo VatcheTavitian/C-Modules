@@ -22,7 +22,7 @@ public:
     PMergeMeList(const PMergeMeList& toCopy);
     ~PMergeMeList();
 
-    void mergeSort(std::list<int>& S, int left, int right);
+    void mergeSort(std::list<int>& S);
     void sortList(int size);
     void swapValues(int& value1, int& value2);
   

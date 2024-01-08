@@ -103,17 +103,31 @@ void PMergeMeList::merge(std::list<int>& S, int left, int mid, int right) {
 }
 
 
-void PMergeMeList::mergeSort(std::list<int>& S, int left, int right) {
+void PMergeMeList::mergeSort(std::list<int>& S) {
+    if (S.size() <=1)
+        return ;
   
-    if (left < right) {
+    std::list<int>::iterator mid = S.begin();
+
+    for (ssize_t i = 0; i < S.size(); i++)
+        mid++;
+    std::list<int> firstHalf(S.begin(), mid); 
+    std::list<int> secondHalf(mid, S.end()); 
+
+    mergeSort(firstHalf);
+    mergeSort(secondHalf);
+
+  
+
+    // if (left < right) {
             
-        int mid = left + (right - left) / 2;
+    //     int mid = left + (right - left) / 2;
 
-        mergeSort(S, left, mid);
-        mergeSort(S, mid + 1, right);
+    //     mergeSort(S, left, mid);
+    //     mergeSort(S, mid + 1, right);
 
-        merge(S, left, mid, right);
-    }
+    //     merge(S, left, mid, right);
+    // }
 }
 
 void PMergeMeList::sortList(int size) {
