@@ -56,14 +56,11 @@ void PMergeMe::swapValues(int& value1, int& value2) {
         value1 = value2;
         value2 = temp;
     }
-// std::cout << value1 << value2 <<"\n";
 }
 
 void PMergeMe::merge(std::vector<int>& S, int left, int mid, int right) {
     int n1 = mid - left + 1;
     int n2 = right - mid;
-
-
 
     std::vector<int> L(n1), R(n2);
 
