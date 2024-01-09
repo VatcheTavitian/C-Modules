@@ -8,6 +8,7 @@ PMergeMeList::PMergeMeList(char** argv, int count) {
     // std::cout << "Constructor called" << std::endl;
     if (!this->_isValid(argv, count))
         throw (PMergeMeList::InvalidInput());
+    this->_startTime = std::clock();
     this->_addToList(argv, count);
 }
 
@@ -101,7 +102,7 @@ void PMergeMeList::sortList(int size) {
  
     int    lastnum = this->_list.back();
     bool    odd = false;
-    // double startTime = std::clock();
+    
   
     if (size <= 1)
         return;
@@ -141,23 +142,23 @@ void PMergeMeList::sortList(int size) {
        
     }
     
-    std::cout << "Printing S before\n";
-    for (std::list<int>::iterator it = S.begin(); it != S.end(); it++) {
-         std::cout << *it <<"\n";
-    }
+    // std::cout << "Printing S before\n";
+    // for (std::list<int>::iterator it = S.begin(); it != S.end(); it++) {
+    //      std::cout << *it <<"\n";
+    // }
       
 
     mergeSort(S);
 
-     std::cout << "Printing S after\n";
-    for (std::list<int>::iterator it = S.begin(); it != S.end(); it++) {
-         std::cout << *it <<"\n";
-    }
+    //  std::cout << "Printing S after\n";
+    // for (std::list<int>::iterator it = S.begin(); it != S.end(); it++) {
+    //      std::cout << *it <<"\n";
+    // }
 
-        std::cout << "Printing list after\n";
-    for (std::list<int>::iterator it = _list.begin(); it != _list.end(); it++) {
-         std::cout << *it <<"\n";
-    }
+    //     std::cout << "Printing list after\n";
+    // for (std::list<int>::iterator it = _list.begin(); it != _list.end(); it++) {
+    //      std::cout << *it <<"\n";
+    // }
     
 for (std::list<int>::iterator listIt = this->_list.begin(); listIt != this->_list.end(); listIt++) {
     std::list<int>::iterator it = S.begin();
@@ -197,13 +198,13 @@ for (std::list<int>::iterator listIt = this->_list.begin(); listIt != this->_lis
 
     this->_list = S;
 
-    // double finishTime = clock();
+    double finishTime = clock();
   
-    // double totalTime = (finishTime - startTime) / CLOCKS_PER_SEC * 1000000;
-    // // for (unsigned long i = 0; i < this->_vector.size(); i++)
-    // //         std::cout << this->_vector[i] << std::endl;
-    //  printValues("After: ");
-    //  std::cout << "Time to process range of " << this->_vector.size() << " elements with std::vector " << totalTime << " us" << std::endl;
+    double totalTime = (finishTime - this->_startTime) / CLOCKS_PER_SEC * 1000000;
+    // for (unsigned long i = 0; i < this->_vector.size(); i++)
+    //         std::cout << this->_vector[i] << std::endl;
+     printValues("After: ");
+     std::cout << "Time to process range of " << this->_list.size() << " elements with std::list " << totalTime << " us" << std::endl;
  }
 
 void PMergeMeList::printValues(std::string pos) {

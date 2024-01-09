@@ -7,7 +7,7 @@
 class PMergeMeList
 {
 private:
-
+    double _startTime;
     PMergeMeList();
     PMergeMeList& operator=(const PMergeMeList& src);
     bool _isValid(char** argv, int count);
