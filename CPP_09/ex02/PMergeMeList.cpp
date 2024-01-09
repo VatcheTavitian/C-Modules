@@ -59,47 +59,23 @@ void PMergeMeList::swapValues(int& value1, int& value2) {
     }
 }
 
-void PMergeMeList::merge(std::list<int>& S, int left, int mid, int right) {
-    (void) S;
-    (void) left;
-    (void) mid;
-    (void) right;
-    
-    // int n1 = mid - left + 1;
-    // int n2 = right - mid;
+void PMergeMeList::merge(std::list<int>& S,  std::list<int>& firstHalf,  std::list<int>& secondHalf) {
+    S.clear();
 
-    // std::list<int> L(n1), R(n2);
+    std::list<int>::iterator itFirst = firstHalf.begin();
+    std::list<int>::iterator itSecond = secondHalf.begin();
 
-    // for (int i = 0; i < n1; i++)
-    //     L[i] = S[left + i];
-    // for (int j = 0; j < n2; j++)
-    //     R[j] = S[mid + 1 + j];
-
-    // int i = 0, j = 0, k = left;
-
-    // while (i < n1 && j < n2) {
-    //     if (L[i] <= R[j]) {
-    //         S[k] = L[i];
-    //         i++;
-    //     } else {
-    //         S[k] = R[j];
-    //         j++;
-    //     }
-    //     k++;
-    // }
-
-    // while (i < n1) {
-    //     S[k] = L[i];
-    //     i++;
-    //     k++;
-    // }
-
-    // while (j < n2) {
-    //     S[k] = R[j];
-    //     j++;
-    //     k++;
-    // }
-    
+    while (itFirst != firstHalf.end() && itSecond != secondHalf.end()) {
+        if (*itFirst < *itSecond) {
+            S.push_back(*itFirst);
+            itFirst++;
+        } else {
+            S.push_back(*itSecond);
+            itSecond++;
+        }
+    }    
+    S.insert(S.end(), itFirst, firstHalf.end());
+    S.insert(S.end(), itSecond, secondHalf.end());
 }
 
 
@@ -109,7 +85,7 @@ void PMergeMeList::mergeSort(std::list<int>& S) {
   
     std::list<int>::iterator mid = S.begin();
 
-    for (ssize_t i = 0; i < S.size(); i++)
+    for (unsigned long i = 0; i < S.size() / 2; i++)
         mid++;
     std::list<int> firstHalf(S.begin(), mid); 
     std::list<int> secondHalf(mid, S.end()); 
@@ -117,22 +93,13 @@ void PMergeMeList::mergeSort(std::list<int>& S) {
     mergeSort(firstHalf);
     mergeSort(secondHalf);
 
-  
+    merge(S, firstHalf, secondHalf);
 
-    // if (left < right) {
-            
-    //     int mid = left + (right - left) / 2;
-
-    //     mergeSort(S, left, mid);
-    //     mergeSort(S, mid + 1, right);
-
-    //     merge(S, left, mid, right);
-    // }
 }
 
 void PMergeMeList::sortList(int size) {
  
-    // Node     lastnum = this->_list.back();
+    int    lastnum = this->_list.back();
     bool    odd = false;
     // double startTime = std::clock();
   
@@ -149,11 +116,11 @@ void PMergeMeList::sortList(int size) {
     //  std::cout << "Size now  is " << _list.size() << std::endl;
  
     for (std::list<int>::iterator it = this->_list.begin(); it != this->_list.end();) {
-         std::cout << "Looking at " << *it<< std::endl;
         std::list<int>::iterator nextIt = it;
         nextIt++;
-        if (*it > *nextIt )
-            this->_list.splice(it, _list, nextIt);
+        if (*it > *nextIt ) {
+            this->_list.splice(it, _list, nextIt); 
+        }
         else
             it++;
         it++;
@@ -166,40 +133,70 @@ void PMergeMeList::sortList(int size) {
         if (it == this->_list.end())
             break ;
         S.push_back(*it);
+     
+        std::list<int>::iterator eraseMe = it;
         it++;
+              
+                this->_list.erase(eraseMe);
+       
     }
     
-    std::cout << "Printing S\n";
+    std::cout << "Printing S before\n";
     for (std::list<int>::iterator it = S.begin(); it != S.end(); it++) {
          std::cout << *it <<"\n";
     }
       
 
-    // mergeSort(S, 0, S.size() - 1);
+    mergeSort(S);
 
+     std::cout << "Printing S after\n";
+    for (std::list<int>::iterator it = S.begin(); it != S.end(); it++) {
+         std::cout << *it <<"\n";
+    }
 
-    // for (unsigned long i = 0; i < this->_vector.size(); i+=2) {
-    //     for (unsigned long j = 0; j < S.size(); j++) {
-    //         if (this->_vector[i] < S[j]) {
-    //             S.insert(S.begin() + j, this->_vector[i]);
-    //             break ;
-    //         }
-    //     }
-    // }
+        std::cout << "Printing list after\n";
+    for (std::list<int>::iterator it = _list.begin(); it != _list.end(); it++) {
+         std::cout << *it <<"\n";
+    }
+    
+for (std::list<int>::iterator listIt = this->_list.begin(); listIt != this->_list.end(); listIt++) {
+    std::list<int>::iterator it = S.begin();
 
-    // this->_vector = S;
+    while (it != S.end()) {
+        std::list<int>::iterator nextIt = it;
+        nextIt++;
+        if (*listIt <= *it) {
+            S.insert(it, *listIt);
+            break ;
+        }
+        else if (nextIt == S.end()) {
+            S.push_back(*listIt);
+            break;
+        }
+        it++;
+    }
+}
+    if (odd) {
+        std::list<int>::iterator it = S.begin();
 
-    // if (odd) {
-    //     unsigned long i = 0;
-    //     int current = INT_MIN;
-    //     while (i <  this->_vector.size()) {
-    //         if (num >= current && num <= this->_vector[i])
-    //             break;
-    //         current = this->_vector[i];
-    //         i++;
-    //     } 
-    //     this->_vector.insert(this->_vector.begin() + i, num);
-    // }
+        while (it != S.end()) {
+            std::list<int>::iterator nextIt = it;
+            nextIt++;
+            if (lastnum <= *it) {
+                S.insert(it, lastnum);
+                break ;
+            }
+            else if (nextIt == S.end()) {
+                S.push_back(lastnum);
+                break;
+            }
+            it++;
+         }
+        
+    }
+
+    this->_list = S;
+
     // double finishTime = clock();
   
     // double totalTime = (finishTime - startTime) / CLOCKS_PER_SEC * 1000000;

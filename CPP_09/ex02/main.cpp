@@ -22,5 +22,5 @@ int main(int argc, char** argv) {
     // std::cout << "List size = " << newList->_list.size() << std::endl;
   
     newList->sortList(newList->_list.size());
-      newList->printValues("TEST");
+      newList->printValues("Result");
 }

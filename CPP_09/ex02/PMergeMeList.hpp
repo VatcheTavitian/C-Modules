@@ -13,7 +13,7 @@ private:
     bool _isValid(char** argv, int count);
     void _addToList(char** argv, int count);
 
-    void merge(std::list<int>& arr, int left, int mid, int right);
+    void merge(std::list<int>& S,  std::list<int>& firstHalf,  std::list<int>& secondHalf);
 
 public:
     void printValues(std::string pos);
