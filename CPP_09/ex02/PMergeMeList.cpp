@@ -20,12 +20,12 @@ PMergeMeList::PMergeMeList(const PMergeMeList& toCopy) {
 PMergeMeList& PMergeMeList::operator=(const PMergeMeList& src) {
     if (this == &src)
         return (*this);
-    // DEEP COPY content
+    this->_list = src._list;
     return (*this);
 }
 
 PMergeMeList::~PMergeMeList() {
-    std::cout << "Destructor called" << std::endl;
+    // std::cout << "Destructor called" << std::endl;
 }
 
 bool PMergeMeList::_isValid(char** argv, int count) {
@@ -51,16 +51,7 @@ void PMergeMeList::_addToList(char** argv, int count) {
         // this->_list.push_back(Node(std::atoi(argv[i])));
 }
 
-void PMergeMeList::swapValues(int& value1, int& value2) {
-    int temp = 0;
-    if (value2 < value1) {
-        temp = value1;
-        value1 = value2;
-        value2 = temp;
-    }
-}
-
-void PMergeMeList::merge(std::list<int>& S,  std::list<int>& firstHalf,  std::list<int>& secondHalf) {
+void PMergeMeList::_merge(std::list<int>& S,  std::list<int>& firstHalf,  std::list<int>& secondHalf) {
     S.clear();
 
     std::list<int>::iterator itFirst = firstHalf.begin();
@@ -94,27 +85,22 @@ void PMergeMeList::mergeSort(std::list<int>& S) {
     mergeSort(firstHalf);
     mergeSort(secondHalf);
 
-    merge(S, firstHalf, secondHalf);
-
+    _merge(S, firstHalf, secondHalf);
 }
 
 void PMergeMeList::sortList(int size) {
  
     int    lastnum = this->_list.back();
     bool    odd = false;
-    
-  
+
     if (size <= 1)
         return;
-    printValues("Before:");
+    // printValues("Before:");
     if (size % 2 != 0) {
         odd = true;
         this->_list.pop_back();
         size--;
     }
-    // std::cout << "LastNum here is " << lastnum.value << std::endl;
-    // std::cout << "ODD here is " << odd << std::endl;
-    //  std::cout << "Size now  is " << _list.size() << std::endl;
  
     for (std::list<int>::iterator it = this->_list.begin(); it != this->_list.end();) {
         std::list<int>::iterator nextIt = it;
@@ -141,27 +127,11 @@ void PMergeMeList::sortList(int size) {
                 this->_list.erase(eraseMe);
        
     }
-    
-    // std::cout << "Printing S before\n";
-    // for (std::list<int>::iterator it = S.begin(); it != S.end(); it++) {
-    //      std::cout << *it <<"\n";
-    // }
-      
 
     mergeSort(S);
 
-    //  std::cout << "Printing S after\n";
-    // for (std::list<int>::iterator it = S.begin(); it != S.end(); it++) {
-    //      std::cout << *it <<"\n";
-    // }
-
-    //     std::cout << "Printing list after\n";
-    // for (std::list<int>::iterator it = _list.begin(); it != _list.end(); it++) {
-    //      std::cout << *it <<"\n";
-    // }
-    
-for (std::list<int>::iterator listIt = this->_list.begin(); listIt != this->_list.end(); listIt++) {
-    std::list<int>::iterator it = S.begin();
+    for (std::list<int>::iterator listIt = this->_list.begin(); listIt != this->_list.end(); listIt++) {
+        std::list<int>::iterator it = S.begin();
 
     while (it != S.end()) {
         std::list<int>::iterator nextIt = it;
@@ -199,12 +169,10 @@ for (std::list<int>::iterator listIt = this->_list.begin(); listIt != this->_lis
     this->_list = S;
 
     double finishTime = clock();
-  
     double totalTime = (finishTime - this->_startTime) / CLOCKS_PER_SEC * 1000000;
-    // for (unsigned long i = 0; i < this->_vector.size(); i++)
-    //         std::cout << this->_vector[i] << std::endl;
-     printValues("After: ");
-     std::cout << "Time to process range of " << this->_list.size() << " elements with std::list " << totalTime << " us" << std::endl;
+
+    // printValues("After: ");
+    std::cout << "Time to process range of " << this->_list.size() << " elements with std::list " << totalTime << " us" << std::endl;
  }
 
 void PMergeMeList::printValues(std::string pos) {
@@ -217,5 +185,3 @@ void PMergeMeList::printValues(std::string pos) {
 const char* PMergeMeList::InvalidInput::what() const throw() {
 		return "Error: invalid syntax";
 	}
-
-    
