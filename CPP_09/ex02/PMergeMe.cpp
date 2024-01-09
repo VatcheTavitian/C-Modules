@@ -8,6 +8,7 @@ PMergeMe::PMergeMe(char** argv, int count) {
     // std::cout << "Constructor called" << std::endl;
     if (!this->_isValid(argv, count))
         throw (PMergeMe::InvalidInput());
+    this->_startTime = std::clock();
     this->_addToVector(argv, count);
 }
 
@@ -19,12 +20,12 @@ PMergeMe::PMergeMe(const PMergeMe& toCopy) {
 PMergeMe& PMergeMe::operator=(const PMergeMe& src) {
     if (this == &src)
         return (*this);
-    // DEEP COPY content
+    this->_vector = src._vector;
     return (*this);
 }
 
 PMergeMe::~PMergeMe() {
-    std::cout << "Destructor called" << std::endl;
+    // std::cout << "Destructor called" << std::endl;
 }
 
 bool PMergeMe::_isValid(char** argv, int count) {
@@ -47,15 +48,6 @@ bool PMergeMe::_isValid(char** argv, int count) {
 void PMergeMe::_addToVector(char** argv, int count) {
     for (int i = 1; i < count; i++)
         this->_vector.push_back(std::atoi(argv[i]));
-}
-
-void PMergeMe::swapValues(int& value1, int& value2) {
-    int temp = 0;
-    if (value2 < value1) {
-        temp = value1;
-        value1 = value2;
-        value2 = temp;
-    }
 }
 
 void PMergeMe::merge(std::vector<int>& S, int left, int mid, int right) {
@@ -96,7 +88,6 @@ void PMergeMe::merge(std::vector<int>& S, int left, int mid, int right) {
     
 }
 
-
 void PMergeMe::mergeSort(std::vector<int>& S, int left, int right) {
   
     if (left < right) {
@@ -113,10 +104,10 @@ void PMergeMe::mergeSort(std::vector<int>& S, int left, int right) {
 void PMergeMe::sortVector(int size) {
     int     num = 0;
     bool    odd = false;
-    double startTime = std::clock();
   
     if (size <= 1)
         return;
+
     printValues("Before:");
     if (size % 2 != 0) {
         odd = true;
@@ -136,10 +127,8 @@ void PMergeMe::sortVector(int size) {
     for (unsigned long i = 1; i < this->_vector.size(); i += 2) {
        S.push_back(this->_vector[i]);
     }
-      
 
     mergeSort(S, 0, S.size() - 1);
-
 
     for (unsigned long i = 0; i < this->_vector.size(); i+=2) {
         for (unsigned long j = 0; j < S.size(); j++) {
@@ -164,12 +153,10 @@ void PMergeMe::sortVector(int size) {
         this->_vector.insert(this->_vector.begin() + i, num);
     }
     double finishTime = clock();
-  
-    double totalTime = (finishTime - startTime) / CLOCKS_PER_SEC * 1000000;
-    // for (unsigned long i = 0; i < this->_vector.size(); i++)
-    //         std::cout << this->_vector[i] << std::endl;
-     printValues("After: ");
-     std::cout << "Time to process range of " << this->_vector.size() << " elements with std::vector " << totalTime << " us" << std::endl;
+    double totalTime = (finishTime - this->_startTime) / CLOCKS_PER_SEC * 1000000;
+
+    printValues("After: ");
+    std::cout << "Time to process range of " << this->_vector.size() << " elements with std::vector " << totalTime << " us" << std::endl;
  }
 
 void PMergeMe::printValues(std::string pos) {
@@ -182,5 +169,3 @@ void PMergeMe::printValues(std::string pos) {
 const char* PMergeMe::InvalidInput::what() const throw() {
 		return "Error: invalid syntax";
 	}
-
-    
