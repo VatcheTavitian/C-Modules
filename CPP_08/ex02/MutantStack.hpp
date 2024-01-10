@@ -23,7 +23,7 @@ class MutantStack: public std::stack<T> {
             static_cast<std::stack<T>&>(*this) = static_cast<const std::stack<T>&>(toCopy);
             return (*this);
         }
-        ~MutantStack() {std::cout << "MutantStack descructor called" << std::endl; };
+        ~MutantStack() {std::cout << "MutantStack destructor called" << std::endl; };
 
         typedef typename std::stack<T>::container_type::iterator iterator;
 

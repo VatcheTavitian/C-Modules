@@ -51,11 +51,11 @@ int main() {
             std::cout << *it << std::endl;
             ++it;
         }
-        //copy stack
-        std::stack<int> s(mstack);
-        std::cout << s.size() << " = s.size" << std::endl;
-        s.pop();
-        std::cout << s.top() <<  " = s.top" << std::endl;
+        //copy stack test
+        // std::stack<int> s(mstack);
+        // std::cout << s.size() << " = s.size" << std::endl;
+        // s.pop();
+        // std::cout << s.top() <<  " = s.top" << std::endl;
      
         return 0;
     }
