@@ -22,8 +22,8 @@ public:
 	int toInt( void ) const;
 	bool operator>(const Fixed& src) const;
 	bool operator<(const Fixed& src) const;
-	bool operator>=(const Fixed& src);
-	bool operator<=(const Fixed& src);
+	bool operator>=(const Fixed& src) const;
+	bool operator<=(const Fixed& src) const;
 	bool operator==(const Fixed& src) const;
 	bool operator!=(const Fixed& src) const;
 	Fixed operator+(const Fixed& src) const;

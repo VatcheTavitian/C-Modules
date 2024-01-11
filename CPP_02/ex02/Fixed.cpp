@@ -60,14 +60,14 @@ bool Fixed::operator<(const Fixed& src) const {
 	return (false);
 }
 
-bool Fixed::operator>=(const Fixed& src) {
+bool Fixed::operator>=(const Fixed& src) const {
 	std::cout << "Greater than or equal to operator called" << std::endl;
 	if (this->getRawBits() >= src.getRawBits())
 		return (true);
 	return (false);
 }
 
-bool Fixed::operator<=(const Fixed& src) {
+bool Fixed::operator<=(const Fixed& src) const {
 	std::cout << "Less than or equal to operator called" << std::endl;
 	if (this->getRawBits() <= src.getRawBits())
 		return (true);
