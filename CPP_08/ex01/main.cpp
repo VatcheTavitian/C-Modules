@@ -17,13 +17,13 @@ int main() {
 
     // Checklist tests
     Span sp = Span(5);
-    sp.addNumber(6);
+    sp.addNumber(-1);
+    sp.addNumber(2);
     sp.addNumber(3);
-    sp.addNumber(17);
-    sp.addNumber(9);
-    sp.addNumber(11);
-    std::cout << sp.shortestSpan() << std::endl;
-    std::cout << sp.longestSpan() << std::endl;
+    sp.addNumber(4);
+    sp.addNumber(50);
+    std::cout << "Shortest Span =" << sp.shortestSpan() << std::endl;
+    std::cout << "Longest Span = " << sp.longestSpan() << std::endl;
 
     // Throw Errors
     // Span sp = Span(5);
@@ -48,12 +48,12 @@ int main() {
     
     // Add Many Random (dispose has random content)
     try {
-    Span spRandom = Span(10);
-    std::vector<int>dispose(10);
-    std::generate(dispose.begin(),dispose.end(),Span::generator);
-
-    spRandom.addNumber(dispose.begin(), dispose.end());
-    spRandom.printContents();
+        Span spRandom = Span(10);
+        std::vector<int>dispose(10);
+        std::generate(dispose.begin(),dispose.end(),Span::generator);
+        std::cout << "\nAdding random numbers to span using generate member function\n";
+        spRandom.addNumber(dispose.begin(), dispose.end());
+        spRandom.printContents();
     } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
     }

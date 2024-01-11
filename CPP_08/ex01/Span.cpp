@@ -51,25 +51,12 @@ int Span::shortestSpan() {
 }
 
 int Span::longestSpan() {
-    int smallest = INT_MAX;
     int largest = INT_MIN;
     if (this->_v.size() < 2)
         throw Span::SpanExceptionError();
     std::sort(_v.begin(), _v.end());
-    std::vector<int>::iterator it;
-    for (it = _v.begin(); it != _v.end(); it++) {
-        if (it == _v.begin())
-            smallest = *it;
-        else {
-            if (*it < smallest) 
-                smallest = *it;
-            if (*it > largest)
-                largest = *it;
-        }
-    }
-    if(largest - smallest == 0)
-        throw Span::SpanExceptionError();
-    return (largest - smallest);
+    largest = _v[0] - _v[_v.size() - 1];
+    return (abs(largest));
 }
 
 int     Span::generator() {
@@ -77,8 +64,6 @@ int     Span::generator() {
 }
 
 void    Span::addNumber(std::vector<int>::iterator start, std::vector<int>::iterator end) {
-    // This if statement should be optional depending on needs of program.
-    // If you want to expand your vector beyond _N size, remove if statement and     
     if (_v.size() + std::distance(start, end) <= _N)
         _v.insert(_v.end(), start,end);
     else
