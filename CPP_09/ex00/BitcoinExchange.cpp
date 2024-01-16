@@ -35,7 +35,7 @@
 
 		data.open("data.csv");
 		if (!data.is_open()) {
-			std::cout << "Unable to open input file" << std::endl;
+			std::cout << "Unable to open data input file" << std::endl;
 		}
 		while (std::getline(data, line)) {
 			std::string key = line.substr(0, line.find(","));
@@ -83,6 +83,19 @@
 			return false;
 		if (tmStruct.tm_year > (today->tm_year +1900 ) || tmStruct.tm_year < 2009)
 			return false;
+		if (tmStruct.tm_mon == 2) {
+			if (tmStruct.tm_mday >= 30)
+				return (false);
+			if (tmStruct.tm_mday == 29) {
+				if ( tmStruct.tm_year % 4 != 0)
+					return (false);
+			}
+		}
+		int m = tmStruct.tm_mon;
+		if (m == 4 || m == 6 || m == 9 || m == 11) {
+			if (tmStruct.tm_mday >= 31)
+				return (false);
+		}
 		if (tmStruct.tm_mon < 1 || tmStruct.tm_mon > 12)
 			return (false);
 		if (tmStruct.tm_mday < 1 || tmStruct.tm_mday > 31)
