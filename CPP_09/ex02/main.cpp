@@ -24,3 +24,6 @@ int main(int argc, char** argv) {
     }
 
 }
+5 3  4 2
+3 5 2 4
+3 4   5 2 merge sort > insert  2 5
